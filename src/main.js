@@ -1,54 +1,23 @@
-import {createApp} from 'vue'
-import FloatingVue from 'floating-vue'
-import 'floating-vue/dist/style.css'
+import { createApp } from "vue";
+import App from "@/App.vue";
+import VTooltip from "floating-vue";
+import AudioLists from "globals/audio_lists.js";
+import FilterOptions from "globals/filter_options.js";
+import Variables from "globals/variables.js";
+import Consts from "globals/consts.js";
+import utils from "utils/utils.js";
 
-import App from './App.vue'
-import utils from '@/js/utils.js'
-import data from '@/js/data.js'
+// 从localStorage读取喜爱列表
+AudioLists.love_list = utils.readLoveList();
+//初始化一些基础项目
+AudioLists.playlist.push(Consts.empty_song);
+AudioLists.cutter_list = Consts.cutter_list;
+Variables.use_treated = { value: utils.readSettings().use_treated };
 
-// 读取喜爱列表
-let love_list = utils.read_love_list()
-if (love_list.length > 0) {
-  if(love_list[0].substring(0, 1) !== 'U') {
-    love_list = []
-    localStorage.setItem('love_list', '[]')
-  }
-}
+window.AudioLists = AudioLists;
+window.FilterOptions = FilterOptions;
+window.Variables = Variables;
 
-// 全局变量
-window.meumy = {
-  song_list: [],
-  song_collection: [],
-  recording_list: [],
-  playlist: [utils.empty_song],
-  love_list,
-  cutter_list: data.cutter_list,
-  filter_options: {
-    star: ['--', '星标', '非星标'],
-    have_audio: ['--', '有音频', '无音频'],
-    order: ['时间倒序', '时间正序'],
-    search_type: ['搜索歌名', '搜索全部信息'],
-    status: [],
-    language: [],
-    artist: [],
-    month: [],
-    collection: []
-  },
-  backdoor: false,
-  use_treated: {value: utils.read_settings().use_treated},
-  debug_list: []
-}
-
-
-createApp(App).use(FloatingVue).mount('#app')
-
-
-// 注册service worker
-/*
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js')
-  })
-}
-*/
-
+const app = createApp(App);
+app.use(VTooltip);
+app.mount("#app");
