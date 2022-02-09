@@ -1,6 +1,6 @@
 import Consts from "globals/consts.js";
 
-function save_love_list(l) {
+function saveLoveList(l) {
   localStorage.setItem("love_list", JSON.stringify(l));
 }
 
@@ -19,15 +19,13 @@ function readLoveList() {
   return loveList;
 }
 
-function save_playlist(current_song, song_list) {
+function savePlaylist(currentSongIndex, songList) {
   // 转换歌曲列表 仅保存id
   localStorage.setItem(
     "current_playlist",
     JSON.stringify({
-      current_song,
-      song_id_list: song_list
-        .map((s) => s.id)
-        .filter((i) => i !== "empty_song"),
+      currentSongIndex,
+      song_id_list: songList.map((s) => s.id).filter((i) => i !== "empty_song"),
     })
   );
 }
@@ -58,9 +56,11 @@ let defaultSettings = {
   use_treated: false,
   play_mode: "loop",
 };
-function save_settings(newSet) {
-  let currentSettings = Object.assign(readSettings(), newSet);
-  localStorage.setItem("settings", JSON.stringify(currentSettings));
+function saveSettings(newSet) {
+  localStorage.setItem(
+    "settings",
+    JSON.stringify(Object.assign(readSettings(), newSet))
+  );
 }
 
 //从localStorage读取设置
@@ -141,15 +141,15 @@ function str_to_code(str) {
 }
 
 function debug(text) {
-  window.meumy.debug_list.push(text);
+  window.Variables.debug_list.push(text);
 }
 
 export default {
-  save_love_list,
+  saveLoveList,
   readLoveList,
-  save_playlist,
+  savePlaylist,
   read_playlist,
-  save_settings,
+  saveSettings,
   readSettings,
   encode_share,
   decode_share,

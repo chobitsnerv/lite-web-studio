@@ -1,13 +1,15 @@
 <script>
-import { onMounted } from "@vue/runtime-core";
 export default {
   name: "App",
 };
 </script>
 
 <script setup>
+import { onMounted } from "@vue/runtime-core";
 import song_data from "utils/data.js";
 import utils from "utils/utils.js";
+import AudioPlayer from "components/AudioPlayer.vue";
+
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
 const ifDebug = false;
@@ -79,7 +81,7 @@ onMounted(() => {
         <div v-for="(d, idx) in debug_list" v-bind:key="d + idx">{{ d }}</div>
       </div>
       <main-song-list ref="main" />
-      <audio-player ref="player" />
+      <AudioPlayer ref="player" />
       <countdown />
       <copy-call-code />
       <import-song-list />

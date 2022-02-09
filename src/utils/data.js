@@ -100,9 +100,9 @@ function convert_song(row) {
   let have_audio = false;
   if (row["有没有音频"] == "TRUE") have_audio = true;
   // 有没有第二版本
-  let second_src = "";
+  let secondSrc = "";
   if (row["有没有第二版本"] == "TRUE")
-    second_src = `/treated_songs/${song_id}.mp3`;
+    secondSrc = `/treated_songs/${song_id}.mp3`;
   // 如果没到时间也不可用
   let days_before_available =
     AVAILABLE_DAYS_LIMIT - dayjs().diff(dayjs(date), "day");
@@ -130,7 +130,7 @@ function convert_song(row) {
     duration,
     id: song_id,
     src: `/songs/${song_id}.mp3`,
-    second_src,
+    secondSrc,
     have_audio,
     days_before_available,
   };
