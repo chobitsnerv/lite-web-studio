@@ -6,6 +6,7 @@ import FilterOptions from "globals/filter_options.js";
 import Variables from "globals/variables.js";
 import Consts from "globals/consts.js";
 import utils from "utils/utils.js";
+import eventBus from "vue3-eventbus";
 
 // 从localStorage读取喜爱列表
 AudioLists.love_list = utils.readLoveList();
@@ -20,4 +21,5 @@ window.Variables = Variables;
 
 const app = createApp(App);
 app.use(VTooltip);
+app.use(eventBus);
 app.mount("#app");

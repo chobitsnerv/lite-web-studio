@@ -107,7 +107,7 @@
 .prevButton div {
   width: 1.2em;
   height: 1.2em;
-  background-image: url("../assets/ui/prev.svg");
+  background-image: url("ui/prev.svg");
   background-size: contain;
 }
 .playButton {
@@ -120,13 +120,13 @@
   background-size: contain;
 }
 .playButton-play {
-  background-image: url("../assets/ui/play.svg");
+  background-image: url("ui/play.svg");
 }
 .playButton-pause {
-  background-image: url("../assets/ui/pause.svg");
+  background-image: url("ui/pause.svg");
 }
 .playButton-loading {
-  background-image: url("../assets/ui/loading.svg");
+  background-image: url("ui/loading.svg");
   animation: loading-rotation 1.5s cubic-bezier(0.16, 0.39, 0.86, 0.62) 0s
     infinite;
 }
@@ -145,7 +145,7 @@
 .nextButton div {
   width: 1.2em;
   height: 1.2em;
-  background-image: url("../assets/ui/next.svg");
+  background-image: url("ui/next.svg");
   background-size: contain;
 }
 @media (any-hover: hover) {
@@ -241,7 +241,7 @@
   position: relative;
 }
 .progressBar-button {
-  background-image: url("../assets/ui/progress_knot.svg");
+  background-image: url("ui/progress_knot.svg");
   background-size: contain;
   width: 1.5rem;
   height: 1.5rem;
@@ -403,7 +403,7 @@
 .playlist-clear-img {
   width: 1.5rem;
   height: 1.5rem;
-  background-image: url("~bootstrap-icons/icons/x.svg?url");
+  background-image: url("node_modules/bootstrap-icons/icons/x.svg?url");
   background-position: center;
   background-size: contain;
 }

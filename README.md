@@ -42,3 +42,41 @@ See [Configuration Reference](https://cn.vitejs.dev/config/#configuring-vite).
 - [ ] Refactor csv-based-web-music-player modules into vue3 compisation API base.
 - [ ] Implement requests based on axios
 - [ ] Implement local cache based on caches api.
+
+
+
+## Project Dev Guideline
+### Directory Structure
+```
+LITE-WEB-STUDIO
+├─public
+│  └─datasheets
+└─src
+    ├─apis
+    ├─assets
+    │  └─ui
+    ├─components
+    │  └─popup
+    ├─globals
+    ├─styles
+    └─utils
+```
+
+- public: 公共资源目录
+  - datasheets: 数据库文件存放
+- src: 项目代码
+  - apis: 远程调用API格纳
+  - assets: 静态资源
+    - ui: ui相关svg格纳
+  - components: 播放器控件
+    - popup: 弹窗相关功能子控件
+  - globals: 全局变量结构定义，全局常量设置
+  - styles: 各界面式样文件
+  - utils: 共通处理  
+
+### Naming Convention
+- 变量名：Camel Case 小驼峰式命名法：首字母小写。开头单词为名词。eg：studentInfo、userInfo
+- 方法名：Camel Case 小驼峰式命名法：首字母小写。开头单词为动词。eg：canRead、getName
+- 局部临时变量名: 前导下划线小字母。 eg：_studentinfo, _username
+- 组件名，全局变量名：Pascal Case 大驼峰式命名法：首字母大写。eg：AudiooPlayer、HelloWorld
+- 全局变量属性名，缓存对象名：snake_case 蛇形命名法。全小写字母借由下划线连接。eg：empty_song、code_src

@@ -41,7 +41,12 @@ const empty_song = {
   src: "",
 };
 
+const cipher = "ILovEMeUmyhOc0nWsJzCVau4BYGAtSH2XpZPld1b657F3xNi98wRKDQkTrgjqf";
+const code_prefix = "musong://";
+
 export default {
   cutter_list,
   empty_song,
+  cipher,
+  code_prefix,
 };

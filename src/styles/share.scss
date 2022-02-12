@@ -1,0 +1,44 @@
+.c-share-body {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.c-share-title {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.share-title {
+  font-weight: bold;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.copy-button {
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 2rem;
+  background-color: white;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  border: 1px solid #28a745;
+  color: #28a745;
+}
+@media (any-hover: hover) {
+  .copy-button:hover {
+    background-color: #28a745;
+    color: white;
+  }
+}
+.copy-button:active {
+  background-color: #208838;
+  color: white;
+}
+.share-list-text {
+  max-width: 100%;
+  max-height: 5rem;
+  overflow-y: scroll;
+  word-break: break-all;
+  border: 1px solid gray;
+  padding: 0.5rem;
+}

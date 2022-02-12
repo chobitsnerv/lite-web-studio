@@ -1,4 +1,5 @@
 import Consts from "globals/consts.js";
+import dayjs from "dayjs";
 
 function saveLoveList(l) {
   localStorage.setItem("love_list", JSON.stringify(l));
@@ -30,7 +31,7 @@ function savePlaylist(currentSongIndex, songList) {
   );
 }
 
-function read_playlist() {
+function readPlaylist() {
   // 初始化
   if (!localStorage.getItem("current_playlist")) {
     localStorage.setItem(
@@ -41,14 +42,14 @@ function read_playlist() {
       })
     );
   }
-  let current_playlist = JSON.parse(localStorage.getItem("current_playlist"));
-  let song_list = current_playlist.song_id_list.map((i) =>
-    window.meumy.song_list.find((s) => s.id === i)
+  const _currentPlaylist = JSON.parse(localStorage.getItem("current_playlist"));
+  const _songList = _currentPlaylist.song_id_list.map((i) =>
+    window.AudioLists.song_list.find((s) => s.id === i)
   );
-  if (song_list.length === 0) song_list.push(Consts.empty_song);
+  if (_songList.length === 0) _songList.push(Consts.empty_song);
   return {
-    current_song: current_playlist.current_song,
-    song_list,
+    current_song: _currentPlaylist.current_song,
+    song_list: _songList,
   };
 }
 
@@ -73,19 +74,17 @@ function readSettings() {
   return defaultSettings;
 }
 
-let cipher = "ILovEMeUmyhOc0nWsJzCVau4BYGAtSH2XpZPld1b657F3xNi98wRKDQkTrgjqf";
-let code_prefix = "musong://";
-function encode_share() {
+function encodeShare() {
   // 将当前播放列表转化为分享代码
   return (
-    code_prefix +
-    window.meumy.playlist
+    Consts.code_prefix +
+    window.AudioLists.playlist
       .map((s) => {
         let n = parseInt(s.id.substring(1));
-        let l = cipher.length;
+        const l = Consts.cipher.length;
         let c = "";
         while (n !== 0 || c.length < 3) {
-          c += cipher.substring(n % l, (n % l) + 1);
+          c += Consts.cipher.substring(n % l, (n % l) + 1);
           n = Math.floor(n / l);
         }
         return c;
@@ -94,9 +93,10 @@ function encode_share() {
       .join("")
   );
 }
+
 function decode_share(code) {
   // 将分享代码转化为歌曲列表
-  if (code.substring(0, 9) !== code_prefix) return false;
+  if (code.substring(0, 9) !== Consts.code_prefix) return false;
   let pure_code = code.substring(9);
   if (pure_code.length % 3 !== 0 || pure_code.length === 0) return false;
   let song_id_list = [];
@@ -105,8 +105,8 @@ function decode_share(code) {
     pure_code = pure_code.substring(3);
     let song_id = 0;
     while (song_code.length > 0) {
-      song_id *= cipher.length;
-      song_id += cipher.search(song_code[0]);
+      song_id *= Consts.cipher.length;
+      song_id += Consts.cipher.search(song_code[0]);
       if (song_id === -1) return false;
       song_code = song_code.slice(1);
     }
@@ -121,14 +121,21 @@ function decode_share(code) {
   return song_list;
 }
 
-function if_first_browse() {
+function checkFirstBrowse() {
   // 初始化
-  let lastest = "20220101";
-  if (!localStorage.getItem("browse_flag")) {
-    localStorage.setItem("browse_flag", lastest);
+  const _currentDate = dayjs().format("YYYY-MM-DD");
+  const _lastVisitDate = localStorage.getItem("browse_flag");
+  const _existedVersion = localStorage.getItem("app_version");
+  if (!_lastVisitDate) {
+    localStorage.setItem("browse_flag", _currentDate);
+    localStorage.setItem("app_version", APP_VERSION);
     return true;
-  } else if (localStorage.getItem("browse_flag") !== lastest) {
-    localStorage.setItem("browse_flag", lastest);
+  } else if (
+    _currentDate === dayjs(_lastVisitDate).add(7, "day").format("YYYY-MM-DD") ||
+    _existedVersion !== APP_VERSION
+  ) {
+    localStorage.setItem("browse_flag", _currentDate);
+    localStorage.setItem("app_version", APP_VERSION);
     return true;
   }
   return false;
@@ -148,12 +155,12 @@ export default {
   saveLoveList,
   readLoveList,
   savePlaylist,
-  read_playlist,
+  readPlaylist,
   saveSettings,
   readSettings,
-  encode_share,
+  encodeShare,
   decode_share,
-  if_first_browse,
+  checkFirstBrowse,
   str_to_code,
   debug,
 };

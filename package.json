@@ -24,6 +24,7 @@
     "eslint-plugin-vue": "^8.4.1",
     "prettier": "2.5.1",
     "sass": "^1.49.7",
-    "vite": "^2.7.2"
+    "vite": "^2.7.2",
+    "vue3-eventbus": "^2.0.0"
   }
 }

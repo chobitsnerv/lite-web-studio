@@ -1,5 +1,5 @@
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref, reactive, computed, onMounted } from "vue";
 export default defineComponent({
   name: "AudioPlayer",
 });
@@ -7,9 +7,10 @@ export default defineComponent({
 
 <script setup>
 import utils from "utils/utils";
-import { ref, reactive, computed, onMounted } from "vue";
 import Consts from "globals/consts.js";
-//todo  PopUpShare, PopUpDetails have not been migrated
+import bus from "vue3-eventbus";
+import SharePopUp from "popup/Share.vue";
+import DetailsPopUp from "popup/Details.vue";
 
 let audio = {};
 let audioSource = {};
@@ -26,8 +27,8 @@ const playProgress = ref(0);
 const loadProgress = ref(0);
 const duration = ref(0);
 const currentSongIndex = ref(0);
-const playlist = reactive(window.AudioLists.playlist);
-const loveList = reactive(window.AudioLists.love_list);
+const playlist = ref(window.AudioLists.playlist);
+const loveList = ref(window.AudioLists.love_list);
 
 // 滑动检测
 let isMouseDown = false;
@@ -35,7 +36,55 @@ window.addEventListener("mouseup", () => {
   if (isMouseDown === true) isMouseDown = false;
 });
 
-//
+const playlistWithoutEmpty = computed(() => {
+  return playlist.value.filter((s) => {
+    return s.id !== "empty_song";
+  });
+});
+
+const volumeHeight = computed(() => {
+  return {
+    height: String((1 - volume.value) * 100) + "%",
+  };
+});
+
+const progressBarFillWidth = computed(() => {
+  return {
+    width: String(playProgress.value * 100) + "%",
+  };
+});
+
+const progressBarLoadingWidth = computed(() => {
+  return {
+    width: String(loadProgress.value * 100) + "%",
+  };
+});
+
+const progressBarButtonLeft = computed(() => {
+  return {
+    left: `calc(${playProgress.value * 100}% - 0.75rem)`,
+  };
+});
+
+const playModeText = computed(() => {
+  if (playMode.value === "loop") return "列表循环";
+  if (playMode.value === "loopOnce") return "单曲循环";
+  return "随机";
+});
+
+const playlistLength = computed(() => {
+  if (playlist.value[0].id === "empty_song") return 0;
+  else return playlist.value.length;
+});
+
+const isLoved = computed(() => {
+  // 空列表就返回否
+  if (playlist.value[0].id === "empty_song") return false;
+  const id = playlist.value[currentSongIndex.value].id;
+  if (loveList.value.findIndex((i) => id === i) !== -1) return true;
+  return false;
+});
+
 const secondToText = (second) => {
   second = Math.floor(second);
   let _minute = String(Math.floor(second / 60));
@@ -93,22 +142,22 @@ const progressBarButtonMouseEvent = (event) => {
 };
 
 const toggleShare = () => {
-  if (playlist[currentSongIndex.value].id !== "empty_song")
+  if (playlist.value[currentSongIndex.value].id !== "empty_song")
     showShare.value = !showShare.value;
 };
 
 const toggleDetails = () => {
-  if (playlist[currentSongIndex.value].id !== "empty_song")
+  if (playlist.value[currentSongIndex.value].id !== "empty_song")
     showDetails.value = !showDetails.value;
 };
 
 const applySong = () => {
   audioLoading.value = false;
-  if (playlist[currentSongIndex.value].id === "empty_song") return false;
+  if (playlist.value[currentSongIndex.value].id === "empty_song") return false;
   // 加载当前歌曲 如果是精选状态且有精选版本就跳精选
-  const _src = playlist[currentSongIndex.value].src;
+  let _src = playlist.value[currentSongIndex.value].src;
   if (window.Variables.use_treated.value) {
-    const _secondSrc = playlist[currentSongIndex.value].secondSrc;
+    const _secondSrc = playlist.value[currentSongIndex.value].secondSrc;
     if (_secondSrc !== "") _src = _secondSrc;
   }
   audioSource.src = _src;
@@ -118,20 +167,20 @@ const applySong = () => {
   // 更改media session信息
   if ("mediaSession" in navigator) {
     navigator.mediaSession.metadata = new window.MediaMetadata({
-      title: playlist[currentSongIndex.value].name,
-      artist: playlist[currentSongIndex.value].artist,
+      title: playlist.value[currentSongIndex.value].name,
+      artist: playlist.value[currentSongIndex.value].artist,
       album: "",
-      artwork: [{ src: require("../assets/logo.png") }],
+      artwork: [{ src: "../assets/logo.png" }],
     });
   }
-  audio.title = playlist[currentSongIndex.value].name;
+  audio.title = playlist.value[currentSongIndex.value].name;
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist);
+  utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
 
 const audioTogglePlay = () => {
   // 播放列表不为空
-  if (playlist[0].id !== "empty_song") {
+  if (playlist.value[0].id !== "empty_song") {
     playStatus.value = !audio.paused;
     if (playStatus.value) audio.pause();
     else audio.play();
@@ -146,7 +195,7 @@ const audioPause = () => {
 
 const nextSong = (idx) => {
   // 如果列表是空的就return
-  if (playlist[0].id === "empty_song") return;
+  if (playlist.value[0].id === "empty_song") return;
   // 如果当前正在播放，就自动播放下一首
   autoPlay.value = playStatus.value;
   // 只有一首歌就回到开头
@@ -187,7 +236,7 @@ const setPlayProgress = (progress) => {
 };
 
 const setVolume = (value) => {
-  value = Math.min(1, Math.max(0, volume));
+  value = Math.min(1, Math.max(0, value));
   audio.volume = value;
   volume.value = value;
 };
@@ -202,19 +251,19 @@ const randomSong = () => {
 };
 
 const toggleLoved = () => {
-  if (playlist[0].id === "empty_song") return;
-  const id = playlist[currentSongIndex.value].id;
+  if (playlist.value[0].id === "empty_song") return;
+  const id = playlist.value[currentSongIndex.value].id;
   // 切换状态
-  if (isLoved) {
+  if (isLoved.value) {
     // 修改喜爱列表
-    const idx = loveList.findIndex((i) => id === i);
-    loveList.splice(idx, 1);
+    const idx = loveList.value.findIndex((i) => id === i);
+    loveList.value.splice(idx, 1);
   } else {
     // 修改喜爱列表
-    loveList.push(playlist[currentSongIndex.value].id);
+    loveList.value.push(playlist.value[currentSongIndex.value].id);
   }
   // 保存喜爱列表
-  utils.saveLoveList(loveList);
+  utils.saveLoveList(loveList.value);
 };
 
 const playlistClear = () => {
@@ -244,7 +293,7 @@ const playlistRemoveSong = (idx) => {
     applySong();
   }
   // 先获取当前播放的id
-  const _currentSongID = playlist[currentSongIndex.value].id;
+  const _currentSongID = playlist.value[currentSongIndex.value].id;
   // 删除选中的歌
   playlist.splice(idx, 1);
   // 重新获取当前歌index
@@ -264,7 +313,7 @@ const playlistRemoveSongID = (id) => {
 
 const playlistAddSong = (song, isJump = false, isAutoplay = false) => {
   let _setSrc = false;
-  if (playlist[0].id === "empty_song") {
+  if (playlist.value[0].id === "empty_song") {
     // 如果播放列表是空的就清空列表
     playlist.splice(0, playlist.length);
     _setSrc = true;
@@ -294,20 +343,20 @@ const playlistAddMany = (songs) => {
   if (songs.length === 0) return false;
   // 如果播放列表是空的
   let _shouldSetSrc = false;
-  if (playlist[0].id === "empty_song") {
+  if (playlist.value[0].id === "empty_song") {
     // 清空列表
-    playlist.splice(0, playlist.length);
+    playlist.value.splice(0, playlist.value.length);
     _shouldSetSrc = true;
   }
   // 遍历所有要添加的歌
   let added = false;
   for (const song of songs) {
     // 判断歌曲是否重复
-    const idx = playlist.findIndex((s) => {
+    const idx = playlist.value.findIndex((s) => {
       return s.id === song.id;
     });
     if (idx === -1) {
-      playlist.push(song);
+      playlist.value.push(song);
       added = true;
     }
   }
@@ -317,14 +366,14 @@ const playlistAddMany = (songs) => {
     autoPlay.value = false;
   }
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist);
+  utils.savePlaylist(currentSongIndex.value, playlist.value);
   return added;
 };
 
 const playlistReplace = (newlist, currentSongidx = 0) => {
   // 更换歌单后暂停播放
-  playlist.splice(0, playlist.length);
-  for (const song of newlist) playlist.push(song);
+  playlist.value.splice(0, playlist.value.length);
+  for (const song of newlist) playlist.value.push(song);
   currentSongIndex.value = currentSongidx;
   autoPlay.value = false;
   playStatus.value = false;
@@ -344,58 +393,9 @@ const playlistScroll = () => {
   // });
 };
 
-const playlistWithoutEmpty = computed(() => {
-  return playlist.filter((s) => {
-    return s.id !== "empty_song";
-  });
-});
-
-const volumeHeight = computed(() => {
-  return {
-    height: String((1 - volume.value) * 100) + "%",
-  };
-});
-
-const progressBarFillWidth = computed(() => {
-  return {
-    width: String(playProgress.value * 100) + "%",
-  };
-});
-
-const progressBarLoadingWidth = computed(() => {
-  return {
-    width: String(loadProgress.value * 100) + "%",
-  };
-});
-
-const progressBarButtonLeft = computed(() => {
-  return {
-    left: `calc(${playProgress.value * 100}% - 0.75rem)`,
-  };
-});
-
-const playModeText = computed(() => {
-  if (playMode.value === "loop") return "列表循环";
-  if (playMode.value === "loopOnce") return "单曲循环";
-  return "随机";
-});
-
-const playlistLength = computed(() => {
-  if (playlist[0].id === "empty_song") return 0;
-  else return playlist.length;
-});
-
-const isLoved = computed(() => {
-  // 空列表就返回否
-  if (playlist[0].id === "empty_song") return false;
-  const id = playlist[currentSongIndex.value].id;
-  if (loveList.findIndex((i) => id === i) !== -1) return true;
-  return false;
-});
-
 onMounted(() => {
-  audio = document.getElementById("meumy_player");
-  audioSource = document.getElementById("meumy_player_source");
+  audio = document.getElementById("lite_player");
+  audioSource = document.getElementById("lite_player_source");
   audio.volume = 0.9;
   audio.addEventListener("loadedmetadata", () => {
     duration.value = audio.duration;
@@ -475,6 +475,26 @@ onMounted(() => {
   // 自动加载第一首
   applySong();
   window.audio = audio;
+
+  bus.on("playlist-add-song-event", (para) => {
+    playlistAddSong([...para]);
+  });
+
+  bus.on("playlist-remove-song-id-event", (para) => {
+    playlistRemoveSongID(para);
+  });
+
+  bus.on("playlist-add-many-event", (para) => {
+    playlistAddMany(para);
+  });
+});
+
+//公开属性给到父组件
+defineExpose({
+  playMode,
+  playlistReplace,
+  playlistAddSong,
+  playlistAddMany,
 });
 </script>
 
@@ -484,22 +504,28 @@ onMounted(() => {
       <div class="c-info">
         <div class="c-songInfo">
           <div class="c-songName">
-            <div class="songName">{{ playlist[currentSongIndex].name }}</div>
-            <div class="singer">{{ playlist[currentSongIndex].artist }}</div>
+            <div class="songName" v-if="playlist[currentSongIndex]">
+              {{ playlist[currentSongIndex].name }}
+            </div>
+            <div class="singer">
+              {{ playlist[currentSongIndex]?.artist }}
+            </div>
           </div>
           <div class="c-songStatus">
-            <div class="date">{{ playlist[currentSongIndex].date }}</div>
+            <div class="date">
+              {{ playlist[currentSongIndex]?.date }}
+            </div>
             <div class="songStatus">
-              {{ playlist[currentSongIndex].status }}
+              {{ playlist[currentSongIndex]?.status }}
             </div>
           </div>
         </div>
         <div class="c-info-op">
           <div class="shareButton otherButtons" v-on:click="toggleShare">
-            <img src="~bootstrap-icons/icons/share.svg" />
+            <img src="node_modules/bootstrap-icons/icons/share.svg?url" />
           </div>
           <div class="detailsButton otherButtons" v-on:click="toggleDetails">
-            <img src="~bootstrap-icons/icons/three-dots.svg" />
+            <img src="node_modules/bootstrap-icons/icons/three-dots.svg?url" />
           </div>
         </div>
       </div>
@@ -513,7 +539,7 @@ onMounted(() => {
             >
               <img
                 v-show="playMode == 'loop'"
-                src="~bootstrap-icons/icons/arrow-repeat.svg"
+                src="node_modules/bootstrap-icons/icons/arrow-repeat.svg?url"
               />
               <img
                 v-show="playMode == 'loopOnce'"
@@ -521,7 +547,7 @@ onMounted(() => {
               />
               <img
                 v-show="playMode == 'shuffle'"
-                src="~bootstrap-icons/icons/shuffle.svg"
+                src="node_modules/bootstrap-icons/icons/shuffle.svg?url"
               />
             </div>
             <div>
@@ -530,7 +556,9 @@ onMounted(() => {
                 v-on:click="showVolumeBar = !showVolumeBar"
                 title="音量"
               >
-                <img src="~bootstrap-icons/icons/volume-up.svg" />
+                <img
+                  src="node_modules/bootstrap-icons/icons/volume-up.svg?url"
+                />
               </div>
               <transition name="fade">
                 <div class="c-volumeBar" v-show="showVolumeBar">
@@ -585,10 +613,13 @@ onMounted(() => {
               v-on:click="toggleLoved"
               title="设为星标歌曲"
             >
-              <img v-show="!isLoved" src="~bootstrap-icons/icons/star.svg" />
+              <img
+                v-show="!isLoved"
+                src="node_modules/bootstrap-icons/icons/star.svg?url"
+              />
               <img
                 v-show="isLoved"
-                src="~bootstrap-icons/icons/star-fill.svg"
+                src="node_modules/bootstrap-icons/icons/star-fill.svg?url"
               />
             </div>
             <div
@@ -643,13 +674,14 @@ onMounted(() => {
             <span v-on:click="showPlaylist = false">收起</span>
           </div>
         </div>
-        <div class="c-playlist-songList" ref="playlist">
+        <div class="c-playlist-songList">
           <div
             v-for="(song, index) in playlistWithoutEmpty"
             v-bind:class="[
               'c-playlist-song',
               {
-                'c-playlist-playing': song.id === playlist[currentSongIndex].id,
+                'c-playlist-playing':
+                  song.id === playlist[currentSongIndex]?.id,
               },
             ]"
             v-bind:key="song.id"
@@ -670,24 +702,24 @@ onMounted(() => {
               <div class="playlist-clear-img"></div>
             </div>
           </div>
-          <div class="playlist-empty" v-show="playlist[0].id === 'empty_song'">
+          <div class="playlist-empty" v-show="playlist[0]?.id === 'empty_song'">
             播放列表为空
           </div>
         </div>
       </div>
     </transition>
-    <pop-up-share
-      v-if="show_share"
+    <SharePopUp
+      v-if="showShare"
       v-on:closepopup="showShare = false"
       :song="playlist[currentSongIndex]"
     />
-    <pop-up-details
-      v-if="show_details"
-      v-on:closepopup="showShare = false"
+    <DetailsPopUp
+      v-if="showDetails"
+      v-on:closepopup="showDetails = false"
       :song="playlist[currentSongIndex]"
     />
-    <audio id="meumy_player">
-      <source id="meumy_player_source" src="" type="audio/mpeg" />
+    <audio id="lite_player">
+      <source id="lite_player_source" src="" type="audio/mpeg" />
     </audio>
   </div>
 </template>
