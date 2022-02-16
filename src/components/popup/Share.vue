@@ -9,16 +9,12 @@ export default defineComponent({
 import MainPopUp from "popup/Main.vue";
 import utils from "utils/utils.js";
 
-const song_popper = {
+const songTooltips = {
   content: "已成功复制到剪切板",
-  showTriggers: ["click"],
-  hideTriggers: ["hover"],
 };
 
-const songlist_popper = {
+const songlistTooltips = {
   content: "已成功复制到剪切板",
-  showTriggers: ["click"],
-  hideTriggers: ["hover"],
 };
 
 const props = defineProps({
@@ -51,16 +47,21 @@ const copy = (text, popper) => {
       <div class="c-share-body">
         <div class="c-share-title">
           <div class="share-title">复制链接分享当前歌曲</div>
-          <button
-            slot="reference"
-            class="copy-button"
-            v-on:click="
-              copy('https://song.meumy.club/?s=' + props.song?.id, song_popper)
-            "
-            v-tooltip="song_popper"
-          >
-            复制到剪切板
-          </button>
+          <VTooltip :showTriggers="['click']" :hideTriggers="['hover']">
+            <button
+              slot="reference"
+              class="copy-button"
+              v-on:click="
+                copy(
+                  'https://song.meumy.club/?s=' + props.song?.id,
+                  songTooltips
+                )
+              "
+            >
+              复制到剪切板
+            </button>
+            <template #popper> {{ songTooltips.content }} </template>
+          </VTooltip>
         </div>
         <div>
           <a v-bind:href="'https://song.meumy.club/?s=' + props.song?.id"
@@ -72,14 +73,17 @@ const copy = (text, popper) => {
       <div class="c-share-body">
         <div class="c-share-title">
           <div class="share-title">复制代码分享歌单</div>
-          <button
-            id="share-songlist-button"
-            class="copy-button"
-            v-on:click="copy(playlistID, songlist_popper)"
-            v-tooltip="songlist_popper"
-          >
-            复制到剪切板
-          </button>
+
+          <VTooltip :showTriggers="['click']" :hideTriggers="['hover']">
+            <button
+              id="share-songlist-button"
+              class="copy-button"
+              v-on:click="copy(playlistID, songlistTooltips)"
+            >
+              复制到剪切板
+            </button>
+            <template #popper> {{ songlistTooltips.content }} </template>
+          </VTooltip>
         </div>
         <div class="share-list-text">{{ playlistID }}</div>
       </div>

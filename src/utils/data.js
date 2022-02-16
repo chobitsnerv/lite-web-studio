@@ -2,6 +2,7 @@ import { parse } from "csv-parse/browser/esm/sync";
 import dayjs from "dayjs";
 import song_list from "utils/song_list.js";
 import utils from "utils/utils.js";
+import { getDataSheets } from "apis/datasheet.js";
 
 let AVAILABLE_DAYS_LIMIT = 5;
 
@@ -20,12 +21,9 @@ function fetch_csv(url) {
 
 function get_song_data() {
   // 获取数据 包括歌曲数据库、歌单数据库
-  let url_list = [
-    "/datasheets/song_database.csv",
-    "/datasheets/playlist_database.csv",
-  ];
-  let fetch_list = url_list.map((l) => fetch_csv(l));
-  return Promise.all(fetch_list).then((results) => {
+  const sheetList = ["song_database.csv", "playlist_database.csv"];
+  const fetchedList = sheetList.map((l) => getDataSheets(l));
+  return Promise.all(fetchedList).then((results) => {
     parse_song_csv(results[0]);
     parse_playlist_csv(results[1]);
     song_list.get_all();
@@ -48,9 +46,7 @@ function parse_song_csv(t) {
     else {
       // 按录播bv号判断
       if (s2.record.bv !== s1.record.bv)
-        return (
-          utils.str_to_code(s1.record.bv) - utils.str_to_code(s2.record.bv)
-        );
+        return utils.strToCode(s1.record.bv) - utils.strToCode(s2.record.bv);
       else {
         // 按分p判断
         if (s2.record.p !== s1.record.p) return s1.record.p - s2.record.p;

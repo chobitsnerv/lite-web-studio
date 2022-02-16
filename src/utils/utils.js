@@ -94,31 +94,31 @@ function encodeShare() {
   );
 }
 
-function decode_share(code) {
+function decodeShare(code) {
   // 将分享代码转化为歌曲列表
   if (code.substring(0, 9) !== Consts.code_prefix) return false;
-  let pure_code = code.substring(9);
-  if (pure_code.length % 3 !== 0 || pure_code.length === 0) return false;
-  let song_id_list = [];
-  while (pure_code.length > 0) {
-    let song_code = pure_code.substring(0, 3).split("").reverse();
-    pure_code = pure_code.substring(3);
-    let song_id = 0;
-    while (song_code.length > 0) {
-      song_id *= Consts.cipher.length;
-      song_id += Consts.cipher.search(song_code[0]);
-      if (song_id === -1) return false;
-      song_code = song_code.slice(1);
+  let _pureCode = code.substring(9);
+  if (_pureCode.length % 3 !== 0 || _pureCode.length === 0) return false;
+  const _songIdList = [];
+  while (_pureCode.length > 0) {
+    let _songCode = _pureCode.substring(0, 3).split("").reverse();
+    _pureCode = _pureCode.substring(3);
+    let _songId = 0;
+    while (_songCode.length > 0) {
+      _songId *= Consts.cipher.length;
+      _songId += Consts.cipher.search(_songCode[0]);
+      if (_songId === -1) return false;
+      _songCode = _songCode.slice(1);
     }
-    let song_id_text = song_id.toString();
-    while (song_id_text.length < 5) song_id_text = "0" + song_id_text;
-    song_id_list.push("U" + song_id_text);
+    let _songIdText = _songId.toString();
+    while (_songIdText.length < 5) _songIdText = "0" + _songIdText;
+    _songIdList.push("U" + _songIdText);
   }
-  let song_list = window.meumy.song_list.filter(
-    (s) => song_id_list.findIndex((i) => i === s.id) !== -1
+  const _songList = window.AudioLists.song_list.filter(
+    (s) => _songIdList.findIndex((i) => i === s.id) !== -1
   );
-  if (song_list.length !== song_id_list.length) return false;
-  return song_list;
+  if (_songList.length !== _songIdList.length) return [];
+  return _songList;
 }
 
 function checkFirstBrowse() {
@@ -141,7 +141,7 @@ function checkFirstBrowse() {
   return false;
 }
 
-function str_to_code(str) {
+function strToCode(str) {
   let s = 0;
   for (let idx = 0; idx < str.length; idx++) s += str.charCodeAt(idx);
   return s;
@@ -159,8 +159,8 @@ export default {
   saveSettings,
   readSettings,
   encodeShare,
-  decode_share,
+  decodeShare,
   checkFirstBrowse,
-  str_to_code,
+  strToCode,
   debug,
 };

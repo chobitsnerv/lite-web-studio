@@ -1,0 +1,76 @@
+.c-pagination {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  border-left: 1px solid rgb(224, 224, 224);
+  border-right: 1px solid rgb(224, 224, 224);
+  font-size: 0.9rem;
+}
+.pagination-item {
+  margin-top: 0.5rem;
+}
+.pagination-per-page-select {
+  padding: 0.2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.pagination-total {
+  padding: 0rem 1rem 0rem 0.5rem;
+  color: rgb(48, 48, 48);
+}
+.c-pagination-go {
+  display: flex;
+  align-items: center;
+}
+.pagination-go-button {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination-go-button:active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+@media (any-hover: hover) {
+  .pagination-go-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+.pagination-go-button div {
+  height: 1rem;
+  width: 1rem;
+  background-size: contain;
+}
+.pagination-go-first div {
+  background-image: url("node_modules/bootstrap-icons/icons/chevron-double-left.svg?url");
+}
+.pagination-go-left div {
+  background-image: url("node_modules/bootstrap-icons/icons/chevron-left.svg?url");
+}
+.pagination-current-page {
+  min-width: 1rem;
+  max-width: 3rem;
+  padding: 0.2rem 0rem 0.2rem 0rem;
+  border: 0px;
+  text-align: center;
+}
+.pagination-go-right div {
+  background-image: url("node_modules/bootstrap-icons/icons/chevron-right.svg?url");
+}
+.pagination-go-last div {
+  background-image: url("node_modules/bootstrap-icons/icons/chevron-double-right.svg?url");
+}
+
+@media all and (max-width: 799px) {
+  .c-pagination {
+    justify-content: center;
+  }
+}

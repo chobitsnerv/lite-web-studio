@@ -8,9 +8,14 @@ export default {
 import { ref, onMounted } from "vue";
 import song_data from "utils/data.js";
 import utils from "utils/utils.js";
+import bus from "vue3-eventbus";
 import MainSongList from "components/MainSongList.vue";
 import AudioPlayer from "components/AudioPlayer.vue";
+import Banner from "components/Banner.vue";
 import Footer from "components/Footer.vue";
+import Countdown from "./components/Countdown.vue";
+import CopyCallCode from "components/CopyCallCode.vue";
+import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
 
 //debug用变量，由于没响应式需求所以不用ref创建
@@ -67,6 +72,7 @@ const init = () => {
         console.log(song_list);
         player.value.playlistAddMany(song_list);
       }
+      bus.emit("apply-search-event");
     })
     .catch((e) => console.log(e));
 };
@@ -79,16 +85,16 @@ onMounted(() => {
 <template>
   <div id="app">
     <div class="c-outer">
-      <banner />
-      <input v-show="develop" type="checkbox" v-model="if_debug" />
-      <div v-show="if_debug">
-        <div v-for="(d, idx) in debug_list" v-bind:key="d + idx">{{ d }}</div>
+      <Banner />
+      <input v-show="develop" type="checkbox" v-model="ifDebug" />
+      <div v-show="ifDebug">
+        <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
       </div>
       <MainSongList ref="mainsonglist" />
       <AudioPlayer ref="player" />
-      <countdown />
-      <copy-call-code />
-      <import-song-list />
+      <Countdown />
+      <CopyCallCode />
+      <ImportSongList />
       <Footer />
       <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
     </div>

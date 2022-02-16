@@ -199,7 +199,7 @@ const nextSong = (idx) => {
   // 如果当前正在播放，就自动播放下一首
   autoPlay.value = playStatus.value;
   // 只有一首歌就回到开头
-  if (playlist.length === 1) {
+  if (playlist.value.length === 1) {
     audio.currentTime = 0;
     audio.play();
     return;
@@ -207,8 +207,9 @@ const nextSong = (idx) => {
   if (playMode.value === "loop" || playMode.value === "loopOnce") {
     // 列表循环和单曲循环就下一首
     currentSongIndex.value += idx;
-    if (currentSongIndex.value < 0) currentSongIndex.value += playlist.length;
-    currentSongIndex.value %= playlist.length;
+    if (currentSongIndex.value < 0)
+      currentSongIndex.value += playlist.value.length;
+    currentSongIndex.value %= playlist.value.length;
   } else if (playMode.value === "shuffle") {
     // 随机就随机一首歌
     currentSongIndex.value = randomSong();
@@ -245,7 +246,7 @@ const randomSong = () => {
   // 随机一个数，如果是当前曲子就重新随机
   let r;
   do {
-    r = Math.floor(Math.random() * playlist.length);
+    r = Math.floor(Math.random() * playlist.value.length);
   } while (r === currentSongIndex.value);
   return r;
 };
@@ -267,19 +268,19 @@ const toggleLoved = () => {
 };
 
 const playlistClear = () => {
-  playlist.splice(0, playlist.length);
-  playlist.push(Consts.empty_song);
+  playlist.value.splice(0, playlist.value.length);
+  playlist.value.push(Consts.empty_song);
   currentSongIndex.value = 0;
   playStatus.value = false;
   playProgress.value = 0;
   audioSource.src = "";
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist);
+  utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
 
 const playlistRemoveSong = (idx) => {
   // 如果只剩一首歌 就相当于清空列表
-  if (playlist.length === 1) {
+  if (playlist.value.length === 1) {
     playlistClear();
     return;
   }
@@ -287,7 +288,7 @@ const playlistRemoveSong = (idx) => {
   if (idx === currentSongIndex.value) {
     // 把正在播放的切到下一首歌并暂停播放
     currentSongIndex.value += 1;
-    currentSongIndex.value %= playlist.length;
+    currentSongIndex.value %= playlist.value.length;
     autoPlay.value = false;
     playStatus.value = false;
     applySong();
@@ -295,18 +296,18 @@ const playlistRemoveSong = (idx) => {
   // 先获取当前播放的id
   const _currentSongID = playlist.value[currentSongIndex.value].id;
   // 删除选中的歌
-  playlist.splice(idx, 1);
+  playlist.value.splice(idx, 1);
   // 重新获取当前歌index
-  currentSongIndex.value = playlist.findIndex((song) => {
+  currentSongIndex.value = playlist.value.findIndex((song) => {
     return song.id === _currentSongID;
   });
   // 保存当前歌单
-  utils.savePlaylist(currentSongIndex.value, playlist);
+  utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
 
 const playlistRemoveSongID = (id) => {
   // 根据id找到对应的下标删歌
-  const idx = playlist.findIndex((s) => s.id === id);
+  const idx = playlist.value.findIndex((s) => s.id === id);
   if (idx === -1) return;
   playlistRemoveSong(idx);
 };
@@ -315,19 +316,19 @@ const playlistAddSong = (song, isJump = false, isAutoplay = false) => {
   let _setSrc = false;
   if (playlist.value[0].id === "empty_song") {
     // 如果播放列表是空的就清空列表
-    playlist.splice(0, playlist.length);
+    playlist.value.splice(0, playlist.value.length);
     _setSrc = true;
   }
   // 判断歌曲是否重复
-  let idx = playlist.findIndex((s) => {
+  let idx = playlist.value.findIndex((s) => {
     return s.id === song.id;
   });
   if (idx === -1) {
     // 如果不重复
-    playlist.push(song);
+    playlist.value.push(song);
     // 保存当前歌单
-    utils.savePlaylist(currentSongIndex.value, playlist);
-    idx = playlist.length - 1;
+    utils.savePlaylist(currentSongIndex.value, playlist.value);
+    idx = playlist.value.length - 1;
   }
   //
   // 原来播放列表是空的 或者 要求跳转 就跳转到歌曲
@@ -382,7 +383,7 @@ const playlistReplace = (newlist, currentSongidx = 0) => {
 
 const playlistShare = () => {
   // 输出歌单中歌曲的id列表
-  return playlist.map((s) => s.id);
+  return playlist.value.map((s) => s.id);
 };
 
 const playlistScroll = () => {
@@ -431,7 +432,7 @@ onMounted(() => {
     // 结束后自动播放下一首
     autoPlay.value = true;
     // 如果只有一首或者是单曲循环就回到开头
-    if (playlist.length === 1 || playMode.value === "loopOnce") {
+    if (playlist.value.length === 1 || playMode.value === "loopOnce") {
       audio.currentTime = 0;
       audio.play();
       return;
@@ -439,7 +440,7 @@ onMounted(() => {
     if (playMode.value === "loop") {
       // 列表循环
       currentSongIndex.value += 1;
-      currentSongIndex.value %= playlist.length;
+      currentSongIndex.value %= playlist.value.length;
     } else if (playMode.value === "shuffle") {
       currentSongIndex.value = randomSong();
     }
@@ -477,7 +478,7 @@ onMounted(() => {
   window.audio = audio;
 
   bus.on("playlist-add-song-event", (para) => {
-    playlistAddSong([...para]);
+    playlistAddSong(...para);
   });
 
   bus.on("playlist-remove-song-id-event", (para) => {
@@ -487,6 +488,12 @@ onMounted(() => {
   bus.on("playlist-add-many-event", (para) => {
     playlistAddMany(para);
   });
+
+  bus.on("playlist-replace-event", (para) => {
+    playlistReplace(para);
+  });
+
+  bus.on("player-audio-pause", audioPause);
 });
 
 //公开属性给到父组件

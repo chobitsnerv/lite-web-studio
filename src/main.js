@@ -1,12 +1,13 @@
 import { createApp } from "vue";
 import App from "@/App.vue";
-import VTooltip from "floating-vue";
+import FloatingVue from "floating-vue";
 import AudioLists from "globals/audio_lists.js";
 import FilterOptions from "globals/filter_options.js";
 import Variables from "globals/variables.js";
 import Consts from "globals/consts.js";
 import utils from "utils/utils.js";
 import eventBus from "vue3-eventbus";
+import "floating-vue/dist/style.css";
 
 // 从localStorage读取喜爱列表
 AudioLists.love_list = utils.readLoveList();
@@ -20,6 +21,15 @@ window.FilterOptions = FilterOptions;
 window.Variables = Variables;
 
 const app = createApp(App);
-app.use(VTooltip);
+app.use(FloatingVue, {
+  themes: {
+    tooltip: {
+      delay: {
+        show: 50,
+        hide: 100,
+      },
+    },
+  },
+});
 app.use(eventBus);
 app.mount("#app");

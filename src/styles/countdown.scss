@@ -1,0 +1,64 @@
+.c-countdown-outer {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.c-countdown {
+  flex-grow: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  max-width: 50%;
+}
+.countdown-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.countdown-timer {
+  flex-grow: 0;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 0rem;
+  border-right: none;
+}
+
+.countdown-select {
+  flex-grow: 0;
+  flex-shrink: 0;
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 0rem;
+  border-right: none;
+}
+.countdown-input {
+  flex-grow: 1;
+  flex-shrink: 1;
+  border-radius: 0rem;
+  width: 0rem;
+  min-width: 3rem;
+  border-right: none;
+}
+.countdown-button {
+  flex-grow: 0;
+  flex-shrink: 0;
+  border-top-left-radius: 0rem;
+  border-bottom-left-radius: 0rem;
+  color: #6c757d;
+  border: 1px solid #6c757d;
+}
+@media (any-hover: hover) {
+  .countdown-button:hover {
+    background-color: #6c757d;
+    color: white;
+  }
+}
+
+@media all and (max-width: 799px) {
+  .c-countdown {
+    max-width: 100%;
+  }
+}

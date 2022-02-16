@@ -1,0 +1,36 @@
+.c-import {
+  margin-top: 4rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+.import-info {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+.import-button {
+  height: 2rem;
+  background-color: white;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+@media (any-hover: hover) {
+  .import-button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+}
+.import-button:active {
+  background-color: #0068d6;
+  color: white;
+}
+.import-code {
+  margin-top: 1rem;
+  width: 100%;
+  overflow-y: scroll;
+  height: 3.6rem;
+  resize: none;
+}
