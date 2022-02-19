@@ -29,6 +29,9 @@ const duration = ref(0);
 const currentSongIndex = ref(0);
 const playlist = ref(window.AudioLists.playlist);
 const loveList = ref(window.AudioLists.love_list);
+const volumebarref = ref(null);
+const playlistref = ref(null);
+const playlistbuttonref = ref(null);
 
 // 滑动检测
 let isMouseDown = false;
@@ -232,7 +235,7 @@ const playerMouseEvent = (event) => {
 };
 
 const setPlayProgress = (progress) => {
-  audio[currentTime] = Math.max(progress * audio.duration - 0.05, 0);
+  audio.currentTime = Math.max(progress * audio.duration - 0.05, 0);
   playProgress.value = progress;
 };
 
@@ -473,6 +476,19 @@ onMounted(() => {
       e.preventDefault();
     }
   });
+  //点击空白关闭弹出的组件
+  document.addEventListener("click", (e) => {
+    if (!volumebarref.value.contains(e.target)) {
+      showVolumeBar.value = false;
+    }
+    if (
+      !playlistref.value.contains(e.target) &&
+      !playlistbuttonref.value.contains(e.target)
+    ) {
+      showPlaylist.value = false;
+    }
+  });
+
   // 自动加载第一首
   applySong();
   window.audio = audio;
@@ -557,7 +573,7 @@ defineExpose({
                 src="node_modules/bootstrap-icons/icons/shuffle.svg?url"
               />
             </div>
-            <div>
+            <div ref="volumebarref">
               <div
                 class="volumeButton otherButtons"
                 v-on:click="showVolumeBar = !showVolumeBar"
@@ -633,6 +649,7 @@ defineExpose({
               class="playlistButton otherButtons"
               v-on:click="showPlaylist = !showPlaylist"
               title="播放列表"
+              ref="playlistbuttonref"
             >
               <div class="playlistButton-img"></div>
               <div class="playlistButton-corner">{{ playlistLength }}</div>
@@ -671,7 +688,7 @@ defineExpose({
       </div>
     </div>
     <transition name="fade" v-on:enter="playlistScroll">
-      <div class="c-playlist" v-show="showPlaylist">
+      <div class="c-playlist" v-show="showPlaylist" ref="playlistref">
         <div class="c-playlist-title">
           <div class="playlist-clearAll">
             <span v-on:click="playlistClear">清空</span>

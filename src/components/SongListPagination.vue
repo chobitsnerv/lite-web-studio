@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "SongListPagination",
 });
@@ -24,6 +24,10 @@ const perPageOption = ref([
   { text: "全部", value: 999999 },
 ]);
 const inputPage = ref(1);
+
+const totalPage = computed(() => {
+  return Math.ceil(props.total / nPerPage.value);
+});
 
 const checkPage = () => {
   const _p = parseInt(inputPage.value);
@@ -84,6 +88,7 @@ watch(
         {{ option.text }}
       </option>
     </select>
+    <div class="pagination-item">共{{ totalPage }}页</div>
     <div class="pagination-item c-pagination-go">
       <div
         class="pagination-go-first pagination-go-button"
