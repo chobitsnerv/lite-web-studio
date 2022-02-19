@@ -57,10 +57,10 @@ const filters = ref([
     options: window.FilterOptions.star,
   },
   {
-    name: "have_audio",
+    name: "has_audio",
     text: "是否有音频",
     value: "--",
-    options: window.FilterOptions.have_audio,
+    options: window.FilterOptions.has_audio,
   },
   {
     name: "order",
@@ -117,10 +117,10 @@ const selfSongListFiltered = computed(() => {
         window.AudioLists.love_list.findIndex((love) => song.id === love) === -1
     );
   // 筛选是否有音频
-  if (filter.have_audio === "有音频")
-    _templist = _templist.filter((song) => song.have_audio);
-  else if (filter.have_audio === "无音频")
-    _templist = _templist.filter((song) => !song.have_audio);
+  if (filter.has_audio === "有音频")
+    _templist = _templist.filter((song) => song.has_audio);
+  else if (filter.has_audio === "无音频")
+    _templist = _templist.filter((song) => !song.has_audio);
   // 筛选搜索
   if (search.value.textForSearch !== "") {
     if (search.value.type === "搜索歌名")
@@ -128,7 +128,7 @@ const selfSongListFiltered = computed(() => {
         (song) =>
           song.name
             .toLowerCase()
-            .search(this.search.text_for_search.toLowerCase()) !== -1
+            .search(search.value.textForSearch.toLowerCase()) !== -1
       );
     else {
       _templist = _templist.filter((song) => {
@@ -163,7 +163,7 @@ const filterChangeEvent = () => {
 const replaceCollection = (songList) => {
   bus.emit(
     "playlist-replace-event",
-    songList.filter((s) => s.have_audio)
+    songList.filter((s) => s.has_audio)
   );
   //this.$parent.$parent.$refs.player.playlist_replace();
 };

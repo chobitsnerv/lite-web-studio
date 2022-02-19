@@ -21,7 +21,7 @@ const importCode = () => {
   if (_songList.length > 0) {
     bus.emit(
       "playlist-replace-event",
-      _songList.filter((s) => s.have_audio)
+      _songList.filter((s) => s.has_audio)
     );
     tooltipsContent.value = "导入成功!";
   } else tooltipsContent.value = "歌单代码错误，请重新复制一下试试~";

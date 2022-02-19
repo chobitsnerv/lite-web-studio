@@ -1,12 +1,12 @@
-function get_all() {
+function getAll() {
   window.AudioLists.song_collection.push(
     ...[
       {
-        name: "呜米唱最多的歌",
-        list: umy_most_10(),
+        name: "演唱最多的歌",
+        list: mostNAudio(MOST_N),
       },
       {
-        name: "双人合唱",
+        name: "合唱歌单",
         list: chorus(),
       },
     ]
@@ -17,25 +17,33 @@ function get_all() {
   );
 }
 
-function umy_most_10() {
-  // 呜米唱的最多的十首歌
+//TODO每个artist的最多演唱n首曲目
+function mostNAudio(n) {
   // 按歌名计数
-  let counter = {};
-  for (let song of window.AudioLists.song_list) {
-    if (song.name in counter) {
-      counter[song.name].list.push(song);
-      counter[song.name].n += 1;
+  const counter = [];
+  for (const song of window.AudioLists.song_list) {
+    let _songname = song.name;
+    let _version = null;
+    if (SONGNAME_CONTAIN_VERSION) {
+      _songname = song.name.match(/^(.+)\s([1-9]\d*.\d*|0.\d*[1-9]\d*)$/);
+      _version = _songname ? _songname[2] : null;
+      _songname = _songname ? _songname[1] : song.name;
+    }
+    if (_version !== null) song.version = _version;
+    if (_songname in counter) {
+      counter[_songname].list.push(song);
+      counter[_songname].num += 1;
     } else {
-      counter[song.name] = {
+      counter[_songname] = {
         list: [song],
-        n: 1,
+        num: 1,
       };
     }
   }
   let most_list = Object.keys(counter).map((k) => counter[k]);
   // 排序
-  most_list.sort((t1, t2) => t2.n - t1.n);
-  most_list = most_list.slice(0, 10);
+  most_list.sort((t1, t2) => t2.num - t1.num);
+  most_list = most_list.slice(0, n);
   // 展开列表
   let final_list = [];
   for (let t of most_list) {
@@ -43,13 +51,14 @@ function umy_most_10() {
   }
   return final_list;
 }
+
 function chorus() {
-  // 双人合唱的曲子
+  //合唱的曲子
   return window.AudioLists.song_list.filter(
     (s) => s.artist.split(",").length > 1
   );
 }
 
 export default {
-  get_all,
+  getAll,
 };

@@ -33,7 +33,7 @@ const init = () => {
   if (backdoor_query === BACKDOOR_WORDS) window.Variables.backdoor = true;
   // 获取歌曲
   song_data
-    .get_song_data()
+    .getSongData()
     .then(() => {
       // 加入保存的播放列表
       let _local_playlist = utils.readPlaylist();
@@ -49,7 +49,7 @@ const init = () => {
       let query = parsedUrl.searchParams.get("s");
       if (query !== null && query !== "") {
         let song_idx = window.AudioLists.song_list.findIndex(
-          (s) => s.have_audio && s.id === query
+          (s) => s.has_audio && s.id === query
         );
         if (song_idx !== -1)
           //TODO:rewrite wait to vue3

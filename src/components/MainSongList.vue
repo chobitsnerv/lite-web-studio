@@ -46,7 +46,7 @@ const isExpanded = computed(() => {
 });
 
 const addSong = (idx, shouldPlay = false) => {
-  if (songList.value[idx].have_audio === false) return;
+  if (songList.value[idx].has_audio === false) return;
   bus.emit("playlist-add-song-event", [
     songList.value[idx],
     shouldPlay,
@@ -86,7 +86,7 @@ const allSongToPlaylist = () => {
   if (songListFiltered.value.length > 0)
     bus.emit(
       "playlist-add-many-event",
-      songListFiltered.value.filter((song) => song.have_audio)
+      songListFiltered.value.filter((song) => song.has_audio)
     );
   //this.$parent.$refs.player.playlist_add_many()
 };
@@ -179,14 +179,14 @@ const pageChangeEvent = () => {
             <div
               class="item-op-download item-op-all"
               title="下载歌曲"
-              v-show="song.have_audio"
+              v-show="song.has_audio"
             >
               <a v-bind:href="song.src" download><div></div></a>
             </div>
             <div
               class="item-op-add item-op-all"
               title="加入播放列表"
-              v-show="song.have_audio && !inPlaylistList[idx]"
+              v-show="song.has_audio && !inPlaylistList[idx]"
               v-on:click.stop="addSong(idx)"
             >
               <div></div>
@@ -194,7 +194,7 @@ const pageChangeEvent = () => {
             <div
               class="item-op-added item-op-all"
               title="已在播放列表"
-              v-show="song.have_audio && inPlaylistList[idx]"
+              v-show="song.has_audio && inPlaylistList[idx]"
               v-on:click.stop="removeSong(idx)"
             >
               <div></div>
@@ -202,7 +202,7 @@ const pageChangeEvent = () => {
             <div
               class="item-op-star item-op-all"
               title="星标歌曲"
-              v-show="song.have_audio"
+              v-show="song.has_audio"
               v-on:click.stop="loveSong(idx)"
             >
               <div
@@ -212,7 +212,7 @@ const pageChangeEvent = () => {
                 ]"
               ></div>
             </div>
-            <div class="item-op-none" v-show="!song.have_audio">
+            <div class="item-op-none" v-show="!song.has_audio">
               {{
                 song.days_before_available > 0
                   ? song.days_before_available + "天后可听"
