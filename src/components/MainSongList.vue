@@ -35,7 +35,7 @@ const inPlaylistList = computed(() => {
 
 const isLoved = computed(() => {
   return songList.value.map(
-    (song) => songList.value.findIndex((love) => song.id === love) !== -1
+    (song) => loveList.value.findIndex((love) => song.id === love) !== -1
   );
 });
 
