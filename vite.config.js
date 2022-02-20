@@ -51,5 +51,7 @@ export default defineConfig({
     MOST_N: 5,
     AVAILABLE_DAYS_LIMIT: 5,
     SONGNAME_CONTAIN_VERSION: true,
+    SONG_NAME_SOURCE_MODE: true,
+    AUDIO_DURATION_IN_MS: true,
   },
 });

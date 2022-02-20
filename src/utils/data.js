@@ -85,7 +85,9 @@ function convertSong(row) {
   let _songName = row["歌名"];
   const _songNameChs = row["中文歌名"];
   const _date = row["日期"];
-  const _recordStartMs = timeToMs(row["起始时间点"]);
+  const _recordStartMs = AUDIO_DURATION_IN_MS
+    ? row["起始时间点"]
+    : timeToMs(row["起始时间点"]);
   const _songId = row["id"];
   // 添加录播信息
   const _record = {
@@ -110,7 +112,9 @@ function convertSong(row) {
   // 计算持续时间 解析不了结束时间戳就不算持续时间了
   let _duration = "--:--";
   if (_hasAudio) {
-    let _recordEndMs = timeToMs(row["结束时间点"]);
+    let _recordEndMs = row["起始时间点"]
+      ? row["结束时间点"]
+      : timeToMs(row["结束时间点"]);
     if (_recordEndMs) _duration = msToDuration(_recordEndMs - _recordStartMs);
   }
   // 返回一首歌
