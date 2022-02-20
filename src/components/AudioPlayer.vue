@@ -545,10 +545,10 @@ defineExpose({
         </div>
         <div class="c-info-op">
           <div class="shareButton otherButtons" v-on:click="toggleShare">
-            <img src="node_modules/bootstrap-icons/icons/share.svg?url" />
+            <img src="/node_modules/bootstrap-icons/icons/share.svg?url" />
           </div>
           <div class="detailsButton otherButtons" v-on:click="toggleDetails">
-            <img src="node_modules/bootstrap-icons/icons/three-dots.svg?url" />
+            <img src="/node_modules/bootstrap-icons/icons/three-dots.svg?url" />
           </div>
         </div>
       </div>
@@ -562,7 +562,7 @@ defineExpose({
             >
               <img
                 v-show="playMode == 'loop'"
-                src="node_modules/bootstrap-icons/icons/arrow-repeat.svg?url"
+                src="/node_modules/bootstrap-icons/icons/arrow-repeat.svg?url"
               />
               <img
                 v-show="playMode == 'loopOnce'"
@@ -570,7 +570,7 @@ defineExpose({
               />
               <img
                 v-show="playMode == 'shuffle'"
-                src="node_modules/bootstrap-icons/icons/shuffle.svg?url"
+                src="/node_modules/bootstrap-icons/icons/shuffle.svg?url"
               />
             </div>
             <div ref="volumebarref">
@@ -580,7 +580,7 @@ defineExpose({
                 title="音量"
               >
                 <img
-                  src="node_modules/bootstrap-icons/icons/volume-up.svg?url"
+                  src="/node_modules/bootstrap-icons/icons/volume-up.svg?url"
                 />
               </div>
               <transition name="fade">
@@ -638,11 +638,11 @@ defineExpose({
             >
               <img
                 v-show="!isLoved"
-                src="node_modules/bootstrap-icons/icons/star.svg?url"
+                src="/node_modules/bootstrap-icons/icons/star.svg?url"
               />
               <img
                 v-show="isLoved"
-                src="node_modules/bootstrap-icons/icons/star-fill.svg?url"
+                src="/node_modules/bootstrap-icons/icons/star-fill.svg?url"
               />
             </div>
             <div

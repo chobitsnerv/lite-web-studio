@@ -20,7 +20,7 @@ import InfoPopUp from "popup/Info.vue";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
-const ifDebug = false;
+const ifDebug = ref(false);
 const showInfo = ref(false);
 const debugList = window.Variables.debug_list;
 const player = ref(null);

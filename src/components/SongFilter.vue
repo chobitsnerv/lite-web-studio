@@ -194,7 +194,7 @@ onMounted(() => {
         v-bind:key="collection.name"
         v-on:click="replaceCollection(collection.list)"
       >
-        <img src="node_modules/bootstrap-icons/icons/tag.svg?url" />
+        <img src="/node_modules/bootstrap-icons/icons/tag.svg?url" />
         <div>{{ collection.name }}</div>
       </div>
     </div>

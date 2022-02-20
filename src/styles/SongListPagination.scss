@@ -50,10 +50,10 @@
   background-size: contain;
 }
 .pagination-go-first div {
-  background-image: url("node_modules/bootstrap-icons/icons/chevron-double-left.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/chevron-double-left.svg?url");
 }
 .pagination-go-left div {
-  background-image: url("node_modules/bootstrap-icons/icons/chevron-left.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/chevron-left.svg?url");
 }
 .pagination-current-page {
   min-width: 1rem;
@@ -63,10 +63,10 @@
   text-align: center;
 }
 .pagination-go-right div {
-  background-image: url("node_modules/bootstrap-icons/icons/chevron-right.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/chevron-right.svg?url");
 }
 .pagination-go-last div {
-  background-image: url("node_modules/bootstrap-icons/icons/chevron-double-right.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/chevron-double-right.svg?url");
 }
 
 @media all and (max-width: 799px) {
