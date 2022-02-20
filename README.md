@@ -40,8 +40,10 @@ See [Configuration Reference](https://cn.vitejs.dev/config/#configuring-vite).
 
 - [x] vue3 project creation with vite.
 - [x] Refactor csv-based-web-music-player modules into vue3 compisation API base.
-- [ ] Implement requests based on axios
+- [x] Implement requests based on axios
 - [ ] Implement local cache based on caches api.
+- [ ] Implement save playlist to localstorage feature
+- [ ] Use lodash to implemmnt shuffle for the audio play shuffle mode.
 
 ## Project Dev Guideline
 
