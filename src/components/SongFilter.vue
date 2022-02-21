@@ -18,6 +18,7 @@ const emit = defineEmits(["update:songListFiltered"]);
 
 const songListOrg = ref(window.AudioLists.song_list);
 const songCollection = ref(window.AudioLists.song_collection);
+const showSongCollection = ref(false);
 const showFilter = ref(false);
 const filters = ref([
   {
@@ -181,13 +182,25 @@ const changeUseTreated = () => {
 
 onMounted(() => {
   bus.on("apply-search-event", applySearch);
+  showSongCollection.value =
+    !navigator.userAgent.match(
+      /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+    ) || !window.matchMedia("(max-width: 799px)").matches;
 });
 </script>
 
 <template>
   <div class="c-outer card">
-    <div class="title">歌单</div>
-    <div class="c-song-collection">
+    <div class="title title-filter">
+      <div class="title">歌单</div>
+      <div
+        class="title-filter-expand"
+        v-on:click="showSongCollection = !showSongCollection"
+      >
+        {{ showSongCollection ? "...收起" : "展开..." }}
+      </div>
+    </div>
+    <div class="c-song-collection" v-show="showSongCollection">
       <div
         class="collection-item"
         v-for="collection in songCollection"
@@ -200,7 +213,7 @@ onMounted(() => {
     </div>
     <hr />
     <div class="title title-filter">
-      <div>筛选</div>
+      <div class="title">筛选</div>
       <div class="title-filter-expand" v-on:click="showFilter = !showFilter">
         {{ showFilter ? "...收起" : "展开..." }}
       </div>
