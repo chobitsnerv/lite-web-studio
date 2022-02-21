@@ -171,12 +171,12 @@
 .item-op-download div {
   height: 1rem;
   width: 1rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/download.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/download.svg");
 }
 .item-op-add div {
   height: 1.1rem;
   width: 1.1rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/plus-circle.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/plus-circle.svg");
 }
 .item-op-added div {
   height: 1.1rem;
@@ -188,10 +188,10 @@
   width: 1.1rem;
 }
 .item-op-star-false {
-  background-image: url("/node_modules/bootstrap-icons/icons/star.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/star.svg");
 }
 .item-op-star-true {
-  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg");
 }
 .item-op-none {
   font-size: 0.7rem;

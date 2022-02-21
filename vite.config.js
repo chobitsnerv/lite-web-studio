@@ -1,10 +1,68 @@
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["favicon.ico"],
+      manifest: {
+        name: "AS Studio",
+        short_name: "AS",
+        description: "lite studio for A-SOUL",
+        icons: [
+          {
+            src: "icons/pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "icons/pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      },
+      workbox: {
+        maximumFileSizeToCacheInBytes: 15000000,
+        globPatterns: ["**/*.{html,json,js,css,mp4}"],
+        runtimeCaching: [
+          {
+            urlPattern: /\/datasheets\/.*\/*.csv/, // 接口缓存 此处填你想缓存的接口正则匹配
+            handler: "CacheFirst",
+            options: {
+              cacheName: "csvdb-cache",
+            },
+          },
+          {
+            urlPattern: /(.*?)\.(png|jpe?g|svg|gif|bmp|psd|tiff|tga|eps)/, // 图片缓存
+            handler: "CacheFirst",
+            options: {
+              cacheName: "image-vedio-cache",
+            },
+          },
+          {
+            urlPattern: /^https:\/\/asoul1\.asoul-rec\.com\/.*/i, // 歌曲缓存
+            handler: "CacheFirst",
+            options: {
+              cacheName: "song-url-cache",
+            },
+          },
+          {
+            urlPattern: /^https:\/\/mknaifen-my\.sharepoint\.com\/.*/i, // 歌曲缓存
+            handler: "CacheFirst",
+            options: {
+              cacheName: "song-media-cache",
+            },
+          },
+        ],
+      },
+    }),
+  ],
   resolve: {
     alias: [
       { find: "@", replacement: path.resolve(__dirname, "./src") },
@@ -26,18 +84,6 @@ export default defineConfig({
       { find: "styles", replacement: path.resolve(__dirname, "./src/styles") },
       { find: "utils", replacement: path.resolve(__dirname, "./src/utils") },
     ],
-
-    //  {
-    //   "@": "./src",
-    //   api: path.resolve(__dirname, "src/apis"),
-    //   assets: path.resolve(__dirname, "src/assets"),
-    //   ui: path.resolve(__dirname, "src/assets/ui"),
-    //   components: path.resolve(__dirname, "src/components"),
-    //   popup: path.resolve(__dirname, "src/components/popup"),
-    //   globals: path.resolve(__dirname, "src/globals"),
-    //   styles: path.resolve(__dirname, "src/styles"),
-    //   utils: path.resolve(__dirname, "src/utils"),
-    // },
   },
   define: {
     BACKDOOR_WORDS: JSON.stringify("ASOULMEMORY"),

@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import { registerSW } from "virtual:pwa-register";
 import App from "@/App.vue";
 import FloatingVue from "floating-vue";
 import AudioLists from "globals/audio_lists.js";
@@ -19,6 +20,10 @@ Variables.use_treated = { value: utils.readSettings().use_treated };
 window.AudioLists = AudioLists;
 window.FilterOptions = FilterOptions;
 window.Variables = Variables;
+
+if ("serviceWorker" in navigator) {
+  registerSW();
+}
 
 const app = createApp(App);
 app.use(FloatingVue, {

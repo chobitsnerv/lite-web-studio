@@ -9,11 +9,11 @@ export default defineComponent({
   <div class="c-title card">
     <div class="banner-video">
       <video playsinline="" autoplay="" loop="" muted="">
-        <source src="@/assets/banner.mp4?url" type="video/mp4" />
+        <source src="@/assets/banner.mp4" type="video/mp4" />
       </video>
     </div>
     <div class="banner-logo">
-      <img src="@/assets/official-white.png?url" alt="logo" />
+      <img src="@/assets/official-white.png" alt="logo" />
     </div>
     <div class="title-info">
       <h1>录音棚</h1>
