@@ -3,7 +3,7 @@ import axios from "axios";
 // 创建 axios 实例
 const LocalService = axios.create({
   // 在请求地址前面加上 baseURL
-  baseURL: import.meta.env.VITE_APP_BASE_API,
+  baseURL: import.meta.env.BASE_URL,
   // 请求超时时间
   timeout: 5000,
 });

@@ -9,7 +9,7 @@ export default defineComponent({
 import MainPopUp from "popup/Main.vue";
 import utils from "utils/utils.js";
 
-const baseURL = import.meta.env.VITE_APP_BASE_API;
+const baseURL = window.location.origin;
 
 const songTooltips = {
   content: "已成功复制到剪切板",
@@ -53,7 +53,7 @@ const copy = (text, popper) => {
             <button
               slot="reference"
               class="copy-button"
-              v-on:click="copy(baseURL + props.song?.id, songTooltips)"
+              v-on:click="copy(baseURL + '/?s=' + props.song?.id, songTooltips)"
             >
               复制到剪切板
             </button>
@@ -61,8 +61,8 @@ const copy = (text, popper) => {
           </VTooltip>
         </div>
         <div>
-          <a v-bind:href="baseURL + props.song?.id"
-            >{{ baseURL }}?s={{ props.song?.id }}</a
+          <a v-bind:href="baseURL + '/?s=' + props.song?.id"
+            >{{ baseURL }}/?s={{ props.song?.id }}</a
           >
         </div>
       </div>
