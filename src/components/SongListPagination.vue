@@ -1,5 +1,5 @@
 <script>
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, ref, watch, nextTick } from "vue";
 export default defineComponent({
   name: "SongListPagination",
 });
@@ -24,15 +24,24 @@ const perPageOption = ref([
   { text: "全部", value: 999999 },
 ]);
 const inputPage = ref(1);
+const currentPage = ref(null);
 
 const totalPage = computed(() => {
   return Math.ceil(props.total / nPerPage.value);
 });
 
+const focusInput = (e) => {
+  currentPage.value = inputPage.value;
+  nextTick(() => {
+    e.currentTarget.setSelectionRange(0, currentPage.value.toString().length);
+  });
+};
+
 const checkPage = () => {
-  const _p = parseInt(inputPage.value);
+  const _p = parseInt(currentPage.value);
   if (_p >= 1 && _p <= Math.ceil(props.total / nPerPage.value)) changePage(_p);
   else inputPage.value = nPage.value;
+  currentPage.value = null;
 };
 
 const addPage = (p) => {
@@ -88,7 +97,6 @@ watch(
         {{ option.text }}
       </option>
     </select>
-    <div class="pagination-item">共{{ totalPage }}页</div>
     <div class="pagination-item c-pagination-go">
       <div
         class="pagination-go-first pagination-go-button"
@@ -104,8 +112,10 @@ watch(
       </div>
       <input
         class="pagination-current-page"
-        v-model="inputPage"
-        v-on:change="checkPage"
+        v-model="currentPage"
+        :placeholder="[[inputPage]] + '/' + [[totalPage]]"
+        v-on:focus="focusInput($event)"
+        v-on:blur="checkPage"
         v-on:keydown.enter="$event.target.blur()"
       />
       <div
