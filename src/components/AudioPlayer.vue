@@ -134,7 +134,7 @@ const progressBarMouseEvent = (event) => {
 const progressBarTouchEvent = (event) => {
   const _target = document.getElementById("c-progressBarRaw");
   const _percent =
-    (event.targetTouches[0].clientX - target.getBoundingClientRect().left) /
+    (event.targetTouches[0].clientX - _target.getBoundingClientRect().left) /
     _target.clientWidth;
   setPlayProgress(Math.max(Math.min(_percent, 1), 0));
 };
