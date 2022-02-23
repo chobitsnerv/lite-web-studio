@@ -271,12 +271,16 @@ const toggleLoved = () => {
 };
 
 const playlistClear = () => {
+  audioPause();
   playlist.value.splice(0, playlist.value.length);
   playlist.value.push(Consts.empty_song);
   currentSongIndex.value = 0;
   playStatus.value = false;
   playProgress.value = 0;
+  loadProgress.value = 0;
+  duration.value = 0;
   audioSource.src = "";
+  audio.load();
   // 保存当前歌单
   utils.savePlaylist(currentSongIndex.value, playlist.value);
 };
