@@ -235,8 +235,10 @@ const playerMouseEvent = (event) => {
 };
 
 const setPlayProgress = (progress) => {
-  audio.currentTime = Math.max(progress * audio.duration - 0.05, 0);
-  playProgress.value = progress;
+  if (audio.duration > 0) {
+    audio.currentTime = Math.max(progress * audio.duration - 0.05, 0);
+    playProgress.value = progress;
+  }
 };
 
 const setVolume = (value) => {
