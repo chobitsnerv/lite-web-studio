@@ -37,12 +37,10 @@ const init = () => {
     .then(() => {
       // 加入保存的播放列表
       let _local_playlist = utils.readPlaylist();
-      //TODO:rewrite wait to vue3
       player.value.playlistReplace(
         _local_playlist.song_list,
         _local_playlist.current_song
       );
-      //TODO:rewrite wait to vue3
       player.value.playMode = utils.readSettings().play_mode;
       // 如果有查询参数就把这首歌加入播放列表
       const parsedUrl = new URL(window.location.href);
@@ -52,7 +50,6 @@ const init = () => {
           (s) => s.has_audio && s.id === query
         );
         if (song_idx !== -1)
-          //TODO:rewrite wait to vue3
           player.value.playlistAddSong(
             window.AudioLists.song_list[song_idx],
             true

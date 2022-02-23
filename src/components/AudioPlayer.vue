@@ -31,6 +31,7 @@ const playlist = ref(window.AudioLists.playlist);
 const loveList = ref(window.AudioLists.love_list);
 const volumebarref = ref(null);
 const playlistref = ref(null);
+const playlistcontentref = ref(null);
 const playlistbuttonref = ref(null);
 
 // 滑动检测
@@ -397,10 +398,9 @@ const playlistShare = () => {
 
 const playlistScroll = () => {
   // 滚动播放列表到当前歌曲
-  //todo once playlist components finished
-  // this.$refs.playlist.children[currentSongIndex.value].scrollIntoView({
-  //   block: "nearest",
-  // });
+  playlistcontentref.value.children[currentSongIndex.value].scrollIntoView({
+    block: "nearest",
+  });
 };
 
 onMounted(() => {
@@ -704,7 +704,7 @@ defineExpose({
             <span v-on:click="showPlaylist = false">收起</span>
           </div>
         </div>
-        <div class="c-playlist-songList">
+        <div class="c-playlist-songList" ref="playlistcontentref">
           <div
             v-for="(song, index) in playlistWithoutEmpty"
             v-bind:class="[
