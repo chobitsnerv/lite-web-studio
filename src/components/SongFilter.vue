@@ -234,7 +234,7 @@ onMounted(() => {
         v-for="filter_item in filters"
         v-bind:key=filter_item.name
       >
-        <div class="filter-item-label">{{ $t(filter_item.name) }}:</div>
+        <div class="filter-item-label">{{ $t(filter_item.text) }}:</div>
         <select
           class="general-input"
           v-model="filter_item.value"

@@ -1,37 +1,4 @@
 {
-    "name": "lite-web-studio",
-    "version": "0.0.0",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-        "format": "prettier .  --write"
-    },
-    "dependencies": {
-        "@vueuse/core": "^7.7.0",
-        "axios": "^0.26.0",
-        "bootstrap-icons": "^1.8.1",
-        "csv-parse": "^5.0.4",
-        "darkreader": "^4.9.44",
-        "dayjs": "^1.10.8",
-        "dexie": "^3.2.1",
-        "floating-vue": "^2.0.0-beta.6",
-        "lodash.shuffle": "^4.2.0",
-        "vue": "^3.2.31",
-        "vuedraggable": "^4.1.0"
-    },
-    "devDependencies": {
-        "@vitejs/plugin-vue": "^2.2.4",
-        "eslint": "^8.10.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-vue": "^8.5.0",
-        "prettier": "2.5.1",
-        "rollup-plugin-visualizer": "^5.6.0",
-        "sass": "^1.49.9",
-        "vite": "^2.8.6",
-        "vue3-eventbus": "^2.0.0"
-    }
   "name": "lite-web-studio",
   "version": "0.0.0",
   "scripts": {
@@ -42,23 +9,28 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
+    "@vueuse/core": "^7.7.0",
     "axios": "^0.26.0",
     "bootstrap-icons": "^1.8.1",
     "csv-parse": "^5.0.4",
-    "dayjs": "^1.10.7",
+    "darkreader": "^4.9.44",
+    "dayjs": "^1.10.8",
+    "dexie": "^3.2.1",
     "floating-vue": "^2.0.0-beta.6",
-    "lodash": "^4.17.21",
+    "lodash.shuffle": "^4.2.0",
     "vue": "^3.2.31",
-    "vue-i18n": "^9.1.9"
+    "vue-i18n": "^9.1.9",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.2.2",
-    "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.4.0",
+    "@vitejs/plugin-vue": "^2.2.4",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^8.5.0",
     "prettier": "2.5.1",
-    "sass": "^1.49.8",
-    "vite": "^2.8.4",
+    "rollup-plugin-visualizer": "^5.6.0",
+    "sass": "^1.49.9",
+    "vite": "^2.8.6",
     "vue3-eventbus": "^2.0.0"
   }
 }
