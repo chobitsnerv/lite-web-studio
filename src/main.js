@@ -8,6 +8,7 @@ import Consts from "globals/consts.js";
 import utils from "utils/utils.js";
 import eventBus from "vue3-eventbus";
 import "floating-vue/dist/style.css";
+import {i18n} from "./i18n/locale";
 
 // 从localStorage读取喜爱列表
 AudioLists.love_list = utils.readLoveList();
@@ -32,4 +33,5 @@ app.use(FloatingVue, {
   },
 });
 app.use(eventBus);
+app.use(i18n);
 app.mount("#app");

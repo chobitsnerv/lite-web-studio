@@ -9,11 +9,11 @@ export default defineComponent({
 import bus from "vue3-eventbus";
 
 const timeOptions = ref([
-  { text: "15分钟", value: 15 },
-  { text: "30分钟", value: 30 },
-  { text: "60分钟", value: 60 },
-  { text: "120分钟", value: 120 },
-  { text: "自定义", value: "custom" },
+  { text: "15minutes", value: 15 },
+  { text: "30minutes", value: 30 },
+  { text: "60minutes", value: 60 },
+  { text: "120minutes", value: 120 },
+  { text: "custom", value: "custom" },
 ]);
 const timeOption = ref(15);
 const timeInputValue = ref("");
@@ -55,7 +55,7 @@ const countdownDisplay = computed(() => {
 <template>
   <div class="c-countdown-outer">
     <div class="c-countdown">
-      <div class="countdown-text"><div>定时停止：</div></div>
+      <div class="countdown-text"><div>{{ $t('countDownTime') }}</div></div>
       <div class="general-input countdown-timer" v-show="isCountingDown">
         {{ countdownDisplay }}
       </div>
@@ -69,7 +69,7 @@ const countdownDisplay = computed(() => {
           v-bind:key="option.text"
           v-bind:value="option.value"
         >
-          {{ option.text }}
+          {{ $t(option.text) }}
         </option>
       </select>
       <input
@@ -78,10 +78,10 @@ const countdownDisplay = computed(() => {
         v-model="timeInputValue"
         type="number"
         min="0"
-        placeholder="多少分钟后停止"
+        placeholder="$t('countDownTime')"
       />
       <button class="general-button countdown-button" v-on:click="toggleStart">
-        {{ isCountingDown ? "清除" : "开始" }}
+        {{ isCountingDown ? $t('empty'): $t('start') }}
       </button>
     </div>
   </div>

@@ -41,7 +41,7 @@ const isLoved = computed(() => {
 
 const isExpanded = computed(() => {
   return songList.value.map(
-    (song) => expandList.value.findIndex((expend) => song.id === expend) !== -1
+    (song) => expandList.value.findIndex((expand) => song.id === expand) !== -1
   );
 });
 
@@ -91,7 +91,7 @@ const allSongToPlaylist = () => {
   //this.$parent.$refs.player.playlist_add_many()
 };
 
-const expendAll = () => {
+const expandAll = () => {
   // 展开全部 如果没有全部展开就展开 否则收起
   if (expandList.value.length !== songList.value.length)
     expandList.value = songList.value.map((song) => song.id);
@@ -118,48 +118,48 @@ const pageChangeEvent = () => {
         class="general-button controler-item controler-item-all"
         v-on:click="allSongToPlaylist"
       >
-        全部筛选结果加入播放列表
+        {{ $t('allSongsToPlaylist') }}
       </button>
     </div>
     <div class="c-song-list">
       <div class="song-list-header" ref="header">
         <div class="header-column all-column all-column-idx"></div>
         <div class="header-column header-column-op all-column all-column-op">
-          操作
+          {{ $t('operate') }}
         </div>
         <div class="all-column-info">
           <div
             class="header-column header-column-name all-column all-column-name"
           >
-            <span class="header-column-name-wide">歌名</span>
-            <span class="header-column-name-narrow">歌曲信息</span>
+            <span class="header-column-name-wide">{{ $t('songName') }}</span>
+            <span class="header-column-name-narrow">{{ $t('songInfo') }}</span>
           </div>
           <div
             class="header-column header-column-artist all-column all-column-artist"
           >
-            演唱者
+            {{ $t('singer') }}
           </div>
           <div
             class="header-column header-column-status all-column all-column-status"
           >
-            演唱状态
+            {{ $t('status') }}
           </div>
           <div
             class="header-column header-column-date all-column all-column-date"
           >
-            演唱日期
+            {{ $t('date') }}
           </div>
           <div
             class="header-column header-column-duration all-column all-column-duration"
           >
-            时长
+            {{ $t('length') }}
           </div>
         </div>
         <div
           class="header-column header-column-details all-column all-column-details"
-          v-on:click="expendAll"
+          v-on:click="expandAll"
         >
-          展开
+          {{ $t('expand') }}
         </div>
       </div>
       <div
@@ -178,14 +178,14 @@ const pageChangeEvent = () => {
           <div class="item-column-op all-column all-column-op">
             <div
               class="item-op-download item-op-all"
-              title="下载歌曲"
+              :title="$t('download')"
               v-show="song.has_audio"
             >
               <a v-bind:href="song.src" download><div></div></a>
             </div>
             <div
               class="item-op-add item-op-all"
-              title="加入播放列表"
+              :title="$t('addToSongList')"
               v-show="song.has_audio && !inPlaylistList[idx]"
               v-on:click.stop="addSong(idx)"
             >
@@ -193,7 +193,7 @@ const pageChangeEvent = () => {
             </div>
             <div
               class="item-op-added item-op-all"
-              title="已在播放列表"
+              :title="$t('songInList')"
               v-show="song.has_audio && inPlaylistList[idx]"
               v-on:click.stop="removeSong(idx)"
             >
@@ -201,7 +201,7 @@ const pageChangeEvent = () => {
             </div>
             <div
               class="item-op-star item-op-all"
-              title="星标歌曲"
+              :title="$t('staredSong')"
               v-show="song.has_audio"
               v-on:click.stop="loveSong(idx)"
             >
@@ -215,8 +215,8 @@ const pageChangeEvent = () => {
             <div class="item-op-none" v-show="!song.has_audio">
               {{
                 song.days_before_available > 0
-                  ? song.days_before_available + "天后可听"
-                  : "暂无音频"
+                  ? song.days_before_available + $t('daysAvailableAfter')
+                  : $t('noResource')
               }}
             </div>
           </div>
@@ -248,18 +248,18 @@ const pageChangeEvent = () => {
             class="item-column-details all-column all-column-details"
             v-on:click.stop="expandSong(idx)"
           >
-            {{ isExpanded[idx] ? "...收起" : "详细..." }}
+            {{ isExpanded[idx] ? "..."+$t('collapse') : $t('detail')+"..." }}
           </div>
         </div>
         <div class="song-list-item-details" v-show="isExpanded[idx]">
           <div class="song-full-details-language">
-            语言: {{ song.language }}
+            {{ $t('language') }}: {{ song.language }}
           </div>
           <div
             class="song-full-details-orginal"
             v-show="song.orginal_artist !== ''"
           >
-            原唱: {{ song.orginal_artist }}
+            {{ $t('originalArtist') }}: {{ song.orginal_artist }}
           </div>
           <div class="song-full-details-ref" v-show="song.ref !== false">
             参考的路灯man:
@@ -272,7 +272,7 @@ const pageChangeEvent = () => {
             </a>
           </div>
           <div class="song-full-details-record">
-            <span>录播：</span>
+            <span>{{ $t('record') }}</span>
             <a
               v-bind:href="
                 'https://www.bilibili.com/video/' +
@@ -289,13 +289,13 @@ const pageChangeEvent = () => {
             </a>
           </div>
           <div class="song-full-details-note" v-show="song.note !== ''">
-            备注: {{ song.note }}
+            {{ $t('notes') }} {{ song.note }}
           </div>
           <div
             class="song-full-details-ref-cut"
             v-show="song.ref_cut !== false"
           >
-            音频提供:
+            {{ $t('providedBy') }}
             <a
               v-bind:href="'https://space.bilibili.com/' + song.ref_cut.uid"
               target="_blank"
@@ -307,7 +307,7 @@ const pageChangeEvent = () => {
         </div>
       </div>
       <div v-show="songList.length === 0" class="song-list-no-item">
-        无结果...
+        {{ $t('noResult') }}
       </div>
     </div>
     <SongListPagination

@@ -192,12 +192,12 @@ onMounted(() => {
 <template>
   <div class="c-outer card">
     <div class="title title-filter">
-      <div class="title">歌单</div>
+      <div class="title">{{ $t('songList') }}</div>
       <div
         class="title-filter-expand"
         v-on:click="showSongCollection = !showSongCollection"
       >
-        {{ showSongCollection ? "...收起" : "展开..." }}
+        {{ showSongCollection ? "..." + $t('collapse') : $t('expand') + "..." }}
       </div>
     </div>
     <div class="c-song-collection" v-show="showSongCollection">
@@ -213,18 +213,18 @@ onMounted(() => {
     </div>
     <hr />
     <div class="title title-filter">
-      <div class="title">筛选</div>
+      <div class="title">{{ $t('filter') }}</div>
       <div class="title-filter-expand" v-on:click="showFilter = !showFilter">
-        {{ showFilter ? "...收起" : "展开..." }}
+        {{ showFilter ? "..." + $t('collapse') : $t('expand') + "..." }}
       </div>
     </div>
     <div class="c-filter" v-show="showFilter">
       <div
         class="filter-item"
         v-for="filter_item in filters"
-        v-bind:key="filter_item.name"
+        v-bind:key=filter_item.name
       >
-        <div class="filter-item-label">{{ filter_item.text }}:</div>
+        <div class="filter-item-label">{{ $t(filter_item.name) }}:</div>
         <select
           class="general-input"
           v-model="filter_item.value"
@@ -235,7 +235,7 @@ onMounted(() => {
             v-bind:value="option"
             v-bind:key="option"
           >
-            {{ option }}
+            {{ $t(option) }}
           </option>
         </select>
       </div>
@@ -250,7 +250,7 @@ onMounted(() => {
         <label
           for="filter-checkbox-treated"
           class="filter-item-label filter-item-treated"
-          >听经过处理的歌</label
+          >{{ $t('processedSongs') }}</label
         >
         <div class="filter-item-question" v-on:click="showExplain = true"></div>
       </div>
@@ -265,7 +265,7 @@ onMounted(() => {
           v-bind:value="option"
           v-bind:key="option"
         >
-          {{ option }}
+          {{ $t(option) }}
         </option>
       </select>
       <input
@@ -278,13 +278,13 @@ onMounted(() => {
         class="general-button filter-song-search-go filter-song-search-button"
         v-on:click="applySearch(false)"
       >
-        搜索!
+        {{ $t('search') }}
       </button>
       <button
         class="general-button filter-song-search-clear filter-song-search-button"
         v-on:click="applySearch(true)"
       >
-        清空
+        {{ $t('empty') }}
       </button>
     </div>
     <ExplainTreatedPopUp

@@ -34,13 +34,13 @@ const copy = (idx) => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(callList[idx].code).then(
       () => {
-        callList[idx].popper.content = "已成功复制到剪切板";
+        callList[idx].popper.content = $t('copySuccess');
       },
       function () {
-        callList[idx].popper.content = "无剪切板权限，请手动复制";
+        callList[idx].popper.content = $t('copyNoAuth');
       }
     );
-  } else callList[idx].popper.content = "你的浏览器尚不支持，请手动复制";
+  } else callList[idx].popper.content = $t('copyNotSupport');
 };
 </script>
 

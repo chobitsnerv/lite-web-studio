@@ -16,12 +16,12 @@ export default defineComponent({
       <img src="@/assets/official-white.png?url" alt="logo" />
     </div>
     <div class="title-info">
-      <h1>录音棚</h1>
+      <h1>{{ $t('bannerTitle') }}</h1>
       <div class="title-detail">
-        <div>A-SOUL时代，沸腾期待！</div>
-        <div>录音棚收录了几乎全部solo和合唱的歌</div>
+        <div>{{ $t('banner1') }}</div>
+        <div>{{ $t('banner2') }}</div>
         <div>
-          还没关注?
+          {{ $t('follow') }}
           <a
             href="https://space.bilibili.com/672346917/"
             target="_blank"
