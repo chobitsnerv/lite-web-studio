@@ -41,7 +41,9 @@ const emit = defineEmits(["closepopup"]);
           target="_blank"
           rel="noreferrer noopener"
           >@嘉然小姐的奶粉罐</a
-        >和<a
+        >
+        和
+        <a
           href="https://space.bilibili.com/393157178"
           target="_blank"
           rel="noreferrer noopener"
@@ -55,12 +57,20 @@ const emit = defineEmits(["closepopup"]);
           target="_blank"
           rel="noreferrer noopener"
           >@悠游不见森</a
-        >和<a
+        >，<a
           href="https://space.bilibili.com/19964039"
           target="_blank"
           rel="noreferrer noopener"
           >@P_P_P_P_P</a
-        >长久以来对于录播资源整理归纳，没有他们就没法顺利整理出完整的音频列表和切片信息。
+        >
+        和
+        <a
+          href="https://space.bilibili.com/86976622"
+          target="_blank"
+          rel="noreferrer noopener"
+          >@培根蔬荟双层牛堡</a
+        >
+        长期以来对于录播资源整理归纳，没有他们就没法顺利整理出完整的音频列表和切片信息。
       </p>
       <!-- <p>
         感谢

@@ -7,13 +7,10 @@ export default defineComponent({
 
 <script setup>
 import MainPopUp from "popup/Main.vue";
-import LodashArray from "lodash/collection";
+import shuffle from "lodash.shuffle";
 
 const cutter = ref(
-  LodashArray.shuffle(window.AudioLists.cutter_list).slice(
-    0,
-    CUTTER_DISPLAY_MAX
-  )
+  shuffle(window.AudioLists.cutter_list).slice(0, CUTTER_DISPLAY_MAX)
 );
 
 const emit = defineEmits(["closepopup"]);

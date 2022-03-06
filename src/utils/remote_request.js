@@ -7,7 +7,8 @@ const RemoteService = axios.create({
   // 在请求地址前面加上 baseURL
   baseURL: "",
   // 请求超时时间
-  timeout: 5000,
+  timeout: 1800000,
+  responseType: "blob",
 });
 
 // 请求拦截
@@ -26,7 +27,7 @@ RemoteService.interceptors.request.use(
 RemoteService.interceptors.response.use(
   (response) => {
     // 响应成功
-    return response;
+    return response.data;
   },
   (error) => {
     // 处理响应错误

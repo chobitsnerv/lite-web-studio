@@ -1,5 +1,7 @@
 import Consts from "globals/consts.js";
 import dayjs from "dayjs";
+import { getAudio } from "apis/audioloader.js";
+import cacheDB from "apis/db.js";
 
 function saveLoveList(l) {
   localStorage.setItem("love_list", JSON.stringify(l));
@@ -12,7 +14,7 @@ function readLoveList() {
     localStorage.setItem("love_list", "[]");
   else {
     loveList = JSON.parse(localStorage.getItem("love_list"));
-    if (loveList.length > 0 && loveList[0].substring(0, 1) !== "U") {
+    if (loveList.length > 0 && loveList[0].substring(0, 1) !== "A") {
       loveList = [];
       localStorage.setItem("love_list", "[]");
     }
@@ -25,7 +27,7 @@ function savePlaylist(currentSongIndex, songList) {
   localStorage.setItem(
     "current_playlist",
     JSON.stringify({
-      currentSongIndex,
+      current_song: currentSongIndex,
       song_id_list: songList.map((s) => s.id).filter((i) => i !== "empty_song"),
     })
   );
@@ -53,9 +55,11 @@ function readPlaylist() {
   };
 }
 
-let defaultSettings = {
+const defaultSettings = {
   use_treated: false,
   play_mode: "loop",
+  play_volume: 0.9,
+  night_mode: "light",
 };
 function saveSettings(newSet) {
   localStorage.setItem(
@@ -96,8 +100,9 @@ function encodeShare() {
 
 function decodeShare(code) {
   // 将分享代码转化为歌曲列表
-  if (code.substring(0, 9) !== Consts.code_prefix) return false;
-  let _pureCode = code.substring(9);
+  if (code.substring(0, Consts.code_prefix.length) !== Consts.code_prefix)
+    return false;
+  let _pureCode = code.substring(Consts.code_prefix.length);
   if (_pureCode.length % 3 !== 0 || _pureCode.length === 0) return false;
   const _songIdList = [];
   while (_pureCode.length > 0) {
@@ -111,8 +116,8 @@ function decodeShare(code) {
       _songCode = _songCode.slice(1);
     }
     let _songIdText = _songId.toString();
-    while (_songIdText.length < 5) _songIdText = "0" + _songIdText;
-    _songIdList.push("U" + _songIdText);
+    while (_songIdText.length < 6) _songIdText = "0" + _songIdText;
+    _songIdList.push("A" + _songIdText);
   }
   const _songList = window.AudioLists.song_list.filter(
     (s) => _songIdList.findIndex((i) => i === s.id) !== -1
@@ -151,6 +156,30 @@ function debug(text) {
   window.Variables.debug_list.push(text);
 }
 
+async function saveAudioInDB(aid, sorucename, isOrign = true) {
+  const _para = isOrign
+    ? `${import.meta.env.VITE_PREFIX_ORIGN_DL_CDN}${sorucename}${
+        import.meta.env.VITE_SUFFIX_ORIGN_DL_CDN
+      }`
+    : `${import.meta.env.VITE_PREFIX_TUNED_DL_CDN}${sorucename}${
+        import.meta.env.VITE_SUFFIX_TUNED_DL_CDN
+      }`;
+  const _blob = await getAudio(_para);
+  await cacheDB.addAudioBlob(aid, _blob);
+}
+
+function deleteAudioInDB(aid) {
+  cacheDB.deleteAudioBlobByID(aid);
+}
+
+function getAudioInDB(aid) {
+  return cacheDB.getAudioBlobByID(aid);
+}
+
+function readCachedList() {
+  return cacheDB.getAudioCachedList();
+}
+
 export default {
   saveLoveList,
   readLoveList,
@@ -162,5 +191,9 @@ export default {
   decodeShare,
   checkFirstBrowse,
   strToCode,
+  saveAudioInDB,
+  deleteAudioInDB,
+  getAudioInDB,
+  readCachedList,
   debug,
 };

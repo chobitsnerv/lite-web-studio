@@ -1,5 +1,6 @@
 import { parse } from "csv-parse/browser/esm/sync";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import song_list from "utils/song_list.js";
 import utils from "utils/utils.js";
 import { getDataSheets } from "apis/datasheet.js";
@@ -17,15 +18,22 @@ import { getDataSheets } from "apis/datasheet.js";
 //   });
 // }
 
+dayjs.extend(customParseFormat);
+
 async function getSongData() {
   // 获取数据 包括歌曲数据库、歌单数据库
   const sheetList = ["song_database.csv", "playlist_database.csv"];
   const fetchedList = sheetList.map((l) => getDataSheets(l));
+  fetchedList.push(utils.readCachedList());
   return Promise.all(fetchedList).then((results) => {
     parseSongCsv(results[0]);
     parsePlaylistCsv(results[1]);
     initialFilterOptions();
     song_list.getAll();
+    window.AudioLists.cached_list.push.apply(
+      window.AudioLists.cached_list,
+      results[2]
+    );
   });
 }
 
@@ -38,8 +46,8 @@ function parseSongCsv(csvfile) {
     window.AudioLists.song_list.push(convertSong(_row));
   // 按时间降序
   window.AudioLists.song_list.sort((s2, s1) => {
-    const _d1 = dayjs(s1.date, "YYYY-MM-DD");
-    const _d2 = dayjs(s2.date, "YYYY-MM-DD");
+    const _d1 = dayjs(s1.date, "YYYY.MM.DD");
+    const _d2 = dayjs(s2.date, "YYYY.MM.DD");
     // 按日期判断
     if (_d1.isBefore(_d2)) return -1;
     else if (_d2.isBefore(_d1)) return 1;
@@ -84,8 +92,8 @@ function initialFilterOptions() {
 }
 
 function convertSong(row) {
-  let _songName = row["歌名"];
-  const _songNameChs = row["中文歌名"];
+  const _songName = row["歌名"].trim();
+  const _songNameChs = row["中文歌名"].trim();
   const _date = row["日期"];
   const _recordStartMs = AUDIO_DURATION_IN_MS
     ? row["起始时间点"]
@@ -98,7 +106,8 @@ function convertSong(row) {
     timecode: msToTimecode(_recordStartMs),
   };
   // 如果有中文歌名就加上
-  if (_songNameChs !== "") _songName = `${_songName}（${_songNameChs}）`;
+  //todo 中文页面备注显示添加完毕，检索时后的对应还没检查
+  //if (_songNameChs !== "") _songName = `${_songName}（${_songNameChs}）`;
   // 有没有音频
   let _hasAudio = false;
   if (row["有没有音频"] == "TRUE") _hasAudio = true;
@@ -109,7 +118,7 @@ function convertSong(row) {
     _secondSrc = `${PREFIX_TUNED}${_songId}${SUFFIX_TUNED}`;
   // 如果没到时间也不可用
   const _daysBeforeAvailable =
-    AVAILABLE_DAYS_LIMIT - dayjs().diff(dayjs(_date), "day");
+    AVAILABLE_DAYS_LIMIT - dayjs().diff(dayjs(_date, "YYYY.MM.DD"), "day");
   if (_daysBeforeAvailable > 0 && !window.Variables.backdoor) _hasAudio = false;
   // 计算持续时间 解析不了结束时间戳就不算持续时间了
   let _duration = "--:--";
@@ -125,6 +134,7 @@ function convertSong(row) {
     record: _record,
     record_start_ms: _recordStartMs,
     name: _songName,
+    name_chs: _songNameChs,
     version: "",
     orginal_artist: row["原曲艺术家"],
     artist: row["演唱者"],
@@ -135,9 +145,11 @@ function convertSong(row) {
     ref_cut: parseRef(row["切片源"]),
     duration: _duration,
     id: _songId,
-    src: `${PREFIX_ORIGN}${SONG_NAME_SOURCE_MODE ? _date : ""}${
-      SONG_NAME_SOURCE_MODE ? _songName : _songId
-    }${SUFFIX_ORIGN}`,
+    src: `${import.meta.env.VITE_PREFIX_ORIGN}${
+      SONG_NAME_SOURCE_MODE ? _date + " " : ""
+    }${SONG_NAME_SOURCE_MODE ? _songName : _songId}${
+      import.meta.env.VITE_SUFFIX_ORIGN
+    }`,
     second_src: _secondSrc,
     has_audio: _hasAudio,
     days_before_available: _daysBeforeAvailable,

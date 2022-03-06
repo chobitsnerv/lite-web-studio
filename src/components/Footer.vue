@@ -26,6 +26,7 @@ onMounted(() => {
         target="_blank"
         rel="noreferrer noopener"
         >A-SOUL</a
+      >？ 赶快去看看她们的直播间：
       >{{ $t('footer2') }}
       <a
         href="https://live.bilibili.com/22625025"
@@ -102,6 +103,26 @@ onMounted(() => {
       >
       <a href="https://asoulfan.com/" target="_blank" rel="noreferrer noopener"
         >Project ASF</a
+      >
+    </p>
+    <p class="links">
+      <a
+        href="https://bbs.a-soul.fans"
+        target="_blank"
+        rel="noreferrer noopener"
+        >AS BBS</a
+      >
+      <a href="https://pt.a-soul.fans" target="_blank" rel="noreferrer noopener"
+        >ASPT</a
+      >
+      <a
+        href="https://asoulworld.com/"
+        target="_blank"
+        rel="noreferrer noopener"
+        >A-SOUL WORLD导航站</a
+      >
+      <a href="https://asdb.live" target="_blank" rel="noreferrer noopener"
+        >A-SOUL Database</a
       >
     </p>
     <CreditPopUp v-if="showCredit" v-on:closepopup="showCredit = false" />

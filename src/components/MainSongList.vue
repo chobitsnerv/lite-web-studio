@@ -1,5 +1,6 @@
 <script>
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
+
 export default defineComponent({
   name: "MainSongList",
 });
@@ -12,10 +13,13 @@ import SongFilter from "components/SongFilter.vue";
 import SongListPagination from "components/SongListPagination.vue";
 
 const loveList = ref(window.AudioLists.love_list);
+const cachedList = ref(window.AudioLists.cached_list);
+const cachingList = ref([]);
 const expandList = ref([]);
 const page = ref(1);
 const perPage = ref(10);
 const songListFiltered = ref(window.AudioLists.song_list);
+const songListOrigin = ref([]);
 const playlist = ref(window.AudioLists.playlist);
 const header = ref(null);
 
@@ -29,7 +33,20 @@ const songList = computed(() => {
 
 const inPlaylistList = computed(() => {
   return songList.value.map(
-    (s) => playlist.value.findIndex((song) => song.id === s.id) !== -1
+    (song) => playlist.value.findIndex((s) => song.id === s.id) !== -1
+  );
+});
+
+const isCaching = computed(() => {
+  return songList.value.map(
+    (song) =>
+      cachingList.value.findIndex((caching) => song.id === caching) !== -1
+  );
+});
+
+const isCached = computed(() => {
+  return songList.value.map(
+    (song) => cachedList.value.findIndex((cached) => song.id === cached) !== -1
   );
 });
 
@@ -42,6 +59,18 @@ const isLoved = computed(() => {
 const isExpanded = computed(() => {
   return songList.value.map(
     (song) => expandList.value.findIndex((expand) => song.id === expand) !== -1
+  );
+});
+
+const cachedListForPlay = computed(() => {
+  return songListOrigin.value.filter(
+    (song) => cachedList.value.findIndex((id) => song.id === id) !== -1
+  );
+});
+
+const loveListForPlay = computed(() => {
+  return songListOrigin.value.filter(
+    (song) => loveList.value.findIndex((id) => song.id === id) !== -1
   );
 });
 
@@ -105,6 +134,28 @@ const pageChangeEvent = () => {
   if (header.value.getBoundingClientRect().bottom < 0)
     header.value.scrollIntoView();
 };
+
+const cacheAudioLocally = async (song) => {
+  cachingList.value.push(song.id);
+  await utils.saveAudioInDB(song.id, song.date + " " + song.name);
+  window.AudioLists.cached_list = cachedList.value =
+    await utils.readCachedList();
+  cachingList.value.pop();
+};
+
+const decacheAudioLocally = async (id) => {
+  await utils.deleteAudioInDB(id);
+  window.AudioLists.cached_list = cachedList.value =
+    await utils.readCachedList();
+};
+
+const initAsyncList = () => {
+  songListOrigin.value = window.AudioLists.song_list;
+};
+
+onMounted(() => {
+  bus.on("apply-search-event", initAsyncList);
+});
 </script>
 
 <template>
@@ -112,6 +163,8 @@ const pageChangeEvent = () => {
     <SongFilter
       v-model:songListFiltered="songListFiltered"
       v-on:update:songListFiltered="page = 1"
+      v-bind:cachedList="cachedListForPlay"
+      v-bind:loveList="loveListForPlay"
     />
     <div class="c-controler">
       <button
@@ -178,10 +231,24 @@ const pageChangeEvent = () => {
           <div class="item-column-op all-column all-column-op">
             <div
               class="item-op-download item-op-all"
-              :title="$t('download')"
-              v-show="song.has_audio"
+              title="$t('cache')"
+              v-show="song.has_audio && !isCached[idx]"
+              v-on:click.stop="cacheAudioLocally(song)"
             >
-              <a v-bind:href="song.src" download><div></div></a>
+              <div
+                v-bind:class="[
+                  { 'item-op-download-ready': !isCaching[idx] },
+                  { 'item-op-download-doing': isCaching[idx] },
+                ]"
+              ></div>
+            </div>
+            <div
+              class="item-op-downloaded item-op-all"
+              title="移除歌曲"
+              v-show="song.has_audio && isCached[idx]"
+              v-on:click.stop="decacheAudioLocally(song.id)"
+            >
+              <div></div>
             </div>
             <div
               class="item-op-add item-op-all"
@@ -277,15 +344,18 @@ const pageChangeEvent = () => {
               v-bind:href="
                 'https://www.bilibili.com/video/' +
                 song.record.bv +
-                '?p=' +
-                song.record.p +
-                '&start_progress=' +
-                song.record_start_ms
+                (song.record.p ? '?p=' + song.record.p : '') +
+                (song.record_start_ms
+                  ? '&start_progress=' + song.record_start_ms
+                  : '')
               "
               target="_blank"
               rel="noreferrer noopener"
             >
-              {{ song.date }} p{{ song.record.p }} {{ song.record.timecode }}
+              {{ song.date }}
+              {{
+                song.record.p ? "p" + song.record.p + song.record.timecode : ""
+              }}
             </a>
           </div>
           <div class="song-full-details-note" v-show="song.note !== ''">

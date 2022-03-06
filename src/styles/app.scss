@@ -20,18 +20,27 @@ body {
   text-align: center;
   margin-top: 0px;
   padding-bottom: 20rem;
-  background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.83),
-      rgba(255, 255, 255, 0.83)
-    ),
-    url("@/assets/ui/banner_bg.png");
+  background-image: url("@/assets/ui/background.webp");
+  --transparent: url(data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==);
+  /* Safari最近版本已经不需要私有前缀了 */
+  background-image: cross-fade(
+    var(--transparent),
+    url("@/assets/ui/background.webp"),
+    15%
+  );
+  /* 如使用自定义属性，-webkit-语句需要放在没有私有前缀语句的下面 */
+  background-image: -webkit-cross-fade(
+    var(--transparent),
+    url("@/assets/ui/background.webp"),
+    15%
+  );
+  background-size: 40%;
+  background-color: rgba(252, 252, 252, 0.8);
   width: 100%;
   display: flex;
   justify-content: center;
-
   position: absolute;
-  height: 120%;
+  height: 126%;
 }
 
 #spaceholder {

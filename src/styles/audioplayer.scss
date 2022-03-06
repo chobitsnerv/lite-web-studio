@@ -29,6 +29,7 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   min-width: 0;
+  transform: translate(0, 7%);
 }
 
 .c-songInfo {
@@ -179,10 +180,59 @@
 .playlistButton {
   position: relative;
 }
+
+.toggleShareIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/share.svg");
+  background-size: contain;
+}
+.toggleDetailsIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/three-dots.svg");
+  background-size: contain;
+}
+.loopIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/arrow-repeat.svg");
+  background-size: contain;
+}
+.loopOnceIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("@/assets/ui/arrow-repeat-once.svg");
+  background-size: contain;
+}
+.shuffleIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/shuffle.svg");
+  background-size: contain;
+}
+.volumeIcon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/volume-up.svg");
+  background-size: contain;
+}
+.isLovedOn {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg");
+  background-size: contain;
+}
+.isLovedOff {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/star.svg");
+  background-size: contain;
+}
 .playlistButton-img {
   width: 1.3em;
   height: 1.3em;
-  background-image: url("/node_modules/bootstrap-icons/icons/music-note-list.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/music-note-list.svg");
   background-size: contain;
 }
 .playlistButton-corner {
@@ -392,6 +442,20 @@
   height: 1.5rem;
   text-align: center;
 }
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+
+.no-move {
+  transition: transform 0s;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
 @media (any-hover: hover) {
   .playlist-clear:hover {
     background-color: rgba(0, 0, 0, 0.1);

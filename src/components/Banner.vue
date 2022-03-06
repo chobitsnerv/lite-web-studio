@@ -9,11 +9,11 @@ export default defineComponent({
   <div class="c-title card">
     <div class="banner-video">
       <video playsinline="" autoplay="" loop="" muted="">
-        <source src="@/assets/banner.mp4?url" type="video/mp4" />
+        <source src="https://asbbs-static-01.kzmidc.workers.dev/?file=/uploads/files/1/banner_1646556711136.mp4" type="video/mp4" />
       </video>
     </div>
     <div class="banner-logo">
-      <img src="@/assets/official-white.png?url" alt="logo" />
+      <!-- <img src="/favicon.svg" alt="logo" /> -->
     </div>
     <div class="title-info">
       <h1>{{ $t('bannerTitle') }}</h1>

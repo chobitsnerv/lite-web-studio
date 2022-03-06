@@ -5,7 +5,7 @@ const LocalService = axios.create({
   // 在请求地址前面加上 baseURL
   baseURL: import.meta.env.BASE_URL,
   // 请求超时时间
-  timeout: 5000,
+  timeout: 30000,
 });
 
 // 请求拦截

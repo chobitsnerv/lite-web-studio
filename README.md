@@ -41,7 +41,7 @@ See [Configuration Reference](https://cn.vitejs.dev/config/#configuring-vite).
 - [x] vue3 project creation with vite.
 - [x] Refactor csv-based-web-music-player modules into vue3 compisation API base.
 - [x] Implement requests based on axios
-- [ ] Implement local cache based on caches api.
+- [x] Implement local cache based on indexed lib dexie.
 - [ ] Implement save playlist to localstorage feature
 - [ ] Use lodash to implemmnt shuffle for the audio play shuffle mode.
 
@@ -51,7 +51,7 @@ See [Configuration Reference](https://cn.vitejs.dev/config/#configuring-vite).
 
 Main: feature development for origin lite web studio. Please use the origin to contribute. No pull request will be accepted for this branch.
 A-soul: A-soul customzied version of lite web studio, any new feature pull request please submit to here.
-Release: branch for auto deplyment to AS 录音棚（https://music.a-soul.fans/）
+Release: branch for auto deplyment to [AS 录音棚 CN](https://studio.asf.ink/) or [AS 录音棚 Global](https://studio.a-soul.fans/)
 
 ### Directory Structure
 

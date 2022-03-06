@@ -34,3 +34,5 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.HK_CMI_SSH_HOST_IP }} >> ~/.ssh/known_hosts
     - name: Deploy with rsync
       run: rsync -avz ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.HK_CMI_SSH_HOST_IP }}:/www/wwwroot/music.a-soul.fans/dist/
+    - run: rsync -avz ./dist/ ${{ secrets.SSH_USER }}@${{ secrets.HK_CMI_SSH_HOST_IP }}:/www/wwwroot/music.asf.ink/dist/
+

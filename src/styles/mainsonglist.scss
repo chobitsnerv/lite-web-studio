@@ -169,29 +169,39 @@
   background-size: contain;
 }
 .item-op-download div {
-  height: 1rem;
-  width: 1rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/download.svg?url");
+  height: 1.1rem;
+  width: 1.1rem;
+}
+.item-op-download-ready {
+  background-image: url("/node_modules/bootstrap-icons/icons/cloud-arrow-down.svg");
+}
+.item-op-download-doing {
+  background-image: url("@/assets/ui/cloud-loading.svg");
+}
+.item-op-downloaded div {
+  height: 1.1rem;
+  width: 1.1rem;
+  background-image: url("/node_modules/bootstrap-icons/icons/cloud-check-fill.svg");
 }
 .item-op-add div {
   height: 1.1rem;
   width: 1.1rem;
-  background-image: url("/node_modules/bootstrap-icons/icons/plus-circle.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/plus-circle.svg");
 }
 .item-op-added div {
   height: 1.1rem;
   width: 1.1rem;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' viewBox='0 0 16 16'><path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z'/></svg>");
+  background-image: url("/node_modules/bootstrap-icons/icons/check-circle-fill.svg");
 }
 .item-op-star div {
   height: 1.1rem;
   width: 1.1rem;
 }
 .item-op-star-false {
-  background-image: url("/node_modules/bootstrap-icons/icons/star.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/star.svg");
 }
 .item-op-star-true {
-  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg?url");
+  background-image: url("/node_modules/bootstrap-icons/icons/star-fill.svg");
 }
 .item-op-none {
   font-size: 0.7rem;
@@ -312,9 +322,6 @@
   }
   .item-column-details {
     font-size: 0.8rem;
-  }
-  .item-op-download {
-    display: none;
   }
   .song-list-item-details {
     width: calc(100% - 2rem);

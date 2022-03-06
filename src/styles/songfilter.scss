@@ -28,6 +28,13 @@
   display: flex;
   align-items: flex-end;
 }
+.collection-icon {
+  width: 1.3em;
+  height: 1.3em;
+  background-image: url("/node_modules/bootstrap-icons/icons/tag.svg");
+  background-size: contain;
+}
+
 @media (any-hover: hover) {
   .collection-item:hover {
     background-color: rgba(0, 0, 0, 0.05);

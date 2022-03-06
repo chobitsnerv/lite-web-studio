@@ -16,9 +16,11 @@ import MainSongList from "components/MainSongList.vue";
 import AudioPlayer from "components/AudioPlayer.vue";
 import Banner from "components/Banner.vue";
 import Footer from "components/Footer.vue";
-import Countdown from "./components/Countdown.vue";
+import FunctionBar from "./components/FunctionBar.vue";
 import ImportSongList from "components/ImportSongList.vue";
 import InfoPopUp from "popup/Info.vue";
+//import Interpolator from "utils/vue-apply-darkmode.esm.js";
+import Interpolator from "components/DarkMode.vue";
 
 //debug用变量，由于没响应式需求所以不用ref创建
 const develop = false;
@@ -27,12 +29,15 @@ const showInfo = ref(false);
 const debugList = window.Variables.debug_list;
 const player = ref(null);
 const mainsonglist = ref(null);
+const isDarkMode = ref(false);
+const isAutoMode = ref(false);
 
 const init = () => {
   // 看看是不是开了后门
   const parsedUrl = new URL(window.location.href);
   let backdoor_query = parsedUrl.searchParams.get("backdoor");
   if (backdoor_query === BACKDOOR_WORDS) window.Variables.backdoor = true;
+
   // 获取歌曲
   song_data
     .getSongData()
@@ -44,6 +49,7 @@ const init = () => {
         _local_playlist.current_song
       );
       player.value.playMode = utils.readSettings().play_mode;
+      player.value.volume = utils.readSettings().play_volume;
       // 如果有查询参数就把这首歌加入播放列表
       const parsedUrl = new URL(window.location.href);
       let query = parsedUrl.searchParams.get("s");
@@ -76,26 +82,48 @@ const init = () => {
     .catch((e) => console.log(e));
 };
 
+const changeNightMode = (mode) => {
+  switch (mode) {
+    case "dark":
+      isDarkMode.value = true;
+      isAutoMode.value = false;
+      break;
+    case "system":
+      isDarkMode.value = false;
+      isAutoMode.value = true;
+      break;
+    default:
+      isDarkMode.value = false;
+      isAutoMode.value = false;
+  }
+};
+
 onMounted(() => {
   init();
+  bus.on("night-mode-change", (para) => {
+    changeNightMode(para);
+  });
+  changeNightMode(utils.readSettings().night_mode);
 });
 </script>
 
 <template>
   <div id="app">
     <div class="c-outer">
-      <Banner />
-      <input v-show="develop" type="checkbox" v-model="ifDebug" />
-      <div v-show="ifDebug">
-        <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
-      </div>
-      <MainSongList ref="mainsonglist" />
-      <AudioPlayer ref="player" />
-      <Countdown />
-      <ImportSongList />
-      <Footer />
-      <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
-      <div id="spaceholder" />
+      <Interpolator v-bind:dark="isDarkMode" v-bind:watchSystem="isAutoMode">
+        <Banner />
+        <input v-show="develop" type="checkbox" v-model="ifDebug" />
+        <div v-show="ifDebug">
+          <div v-for="(d, idx) in debugList" v-bind:key="d + idx">{{ d }}</div>
+        </div>
+        <MainSongList ref="mainsonglist" />
+        <AudioPlayer ref="player" />
+        <FunctionBar />
+        <ImportSongList />
+        <Footer />
+        <InfoPopUp v-if="showInfo" v-on:closepopup="showInfo = false" />
+        <div id="spaceholder" />
+      </Interpolator>
     </div>
   </div>
 </template>

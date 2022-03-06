@@ -12,36 +12,24 @@
 }
 .title-info {
   flex-grow: 0;
-  padding: 1.5vw;
-  z-index: 2;
+  padding: 1.5rem;
+  z-index: 3;
 }
 .title-info h1 {
-  margin-bottom: 1vw;
+  margin-bottom: 1rem;
   text-align: right;
-  font-size: 5.5vw;
+  font-size: 4rem;
 }
 .title-detail {
   text-align: right;
 }
 .title-detail div {
-  margin-bottom: 0.2vw;
-  font-size: 1vw;
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
 }
 .title-detail a {
   color: white;
 }
-
-@media all and (max-width: 799px) {
-  .title-info {
-    padding: 1.5vw;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.15);
-  }
-  .title-info h1 {
-    font-size: 7vw;
-  }
-}
-
 .banner-video {
   position: absolute;
   width: 100%;
@@ -59,12 +47,34 @@
 
 .banner-logo {
   position: absolute;
-  max-width: 20vw;
-  left: 1vw;
-  top: 1vw;
-  z-index: 1;
+  left: 1rem;
+  top: 1rem;
+  z-index: 2;
+  height: 10rem;
+  width: 10rem;
+  background-image: url("@/assets/banner-logo.svg");
+  background-repeat: no-repeat;
 }
-
-.banner-logo img {
-  width: 100%;
+@media all and (max-width: 799px) {
+  .title-info {
+    padding: 0.2rem;
+    padding-right: 1rem;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.618);
+  }
+  .title-info h1 {
+    font-size: 2.5rem;
+  }
+  .title-detail a {
+    color: black;
+  }
+  .c-title {
+    color: rgb(24, 24, 24);
+  }
+  .banner-logo {
+    left: 0rem;
+    top: 0rem;
+    height: 12rem;
+    width: 12rem;
+  }
 }
