@@ -21,6 +21,8 @@
   "singer": "Singer",
   "演唱者": "Artist",
   "演唱状态": "Status",
+  "status": "Status",
+
   "演唱日期": "Date",
   "月份": "Month",
   "歌单": "Song list",

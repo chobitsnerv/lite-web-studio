@@ -26,7 +26,6 @@ onMounted(() => {
         target="_blank"
         rel="noreferrer noopener"
         >A-SOUL</a
-      >？ 赶快去看看她们的直播间：
       >{{ $t('footer2') }}
       <a
         href="https://live.bilibili.com/22625025"
