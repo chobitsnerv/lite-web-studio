@@ -210,15 +210,15 @@ onMounted(() => {
         v-on:click="replaceCollection(collection.list)"
       >
         <div class="collection-icon" />
-        <div>{{ collection.name }}</div>
+        <div>{{ $t(collection.name) }}</div>
       </div>
       <div class="collection-item" v-on:click="replaceCollection(cachedList)">
         <div class="collection-icon" />
-        <div>本地缓存</div>
+        <div>{{ $t('本地缓存') }}</div>
       </div>
       <div class="collection-item" v-on:click="replaceCollection(loveList)">
         <div class="collection-icon" />
-        <div>已收藏</div>
+        <div>{{ $t('已收藏') }}</div>
       </div>
     </div>
     <hr />
@@ -234,7 +234,7 @@ onMounted(() => {
         v-for="filter_item in filters"
         v-bind:key=filter_item.name
       >
-        <div class="filter-item-label">{{ $t(filter_item.text) }}:</div>
+        <div class="filter-item-label">{{ $t(filter_item.name) }}:</div>
         <select
           class="general-input"
           v-model="filter_item.value"
