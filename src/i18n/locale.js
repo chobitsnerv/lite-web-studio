@@ -9,7 +9,7 @@ export const i18n = createI18n({
         zh: zh,
         en: en
     },
-    fallbackLocale: en,
+    fallbackLocale: zh,
     fallbackWarn: false,
     missingWarn: false,
     globalInjection: true
