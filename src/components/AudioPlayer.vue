@@ -790,8 +790,8 @@ defineExpose({
                 <div class="playlist-name handle">
                   {{ element.name }}
                 </div>
-                <div class="playlist-dash handle">-</div>
-                <div class="playlist-artist handle">{{ element.artist }}</div>
+                <div class="playlist-dash">-</div>
+                <div class="playlist-artist">{{ element.artist }}</div>
                 <div class="playlist-status">{{ element.status }}</div>
                 <div class="playlist-duration">{{ element.duration }}</div>
                 <Transition duration="550" name="shadowright">
