@@ -9,7 +9,6 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
-    "@vueuse/core": "^7.7.0",
     "axios": "^0.26.0",
     "bootstrap-icons": "^1.8.1",
     "csv-parse": "^5.0.4",
