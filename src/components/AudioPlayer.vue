@@ -29,6 +29,7 @@ const showDetails = ref(false);
 const playStatus = ref(false);
 const audioLoading = ref(false);
 const autoPlay = ref(false);
+const isPlaylistEditable = ref(false);
 const playMode = ref("loop");
 const volume = ref(0.9);
 const playProgress = ref(0);
@@ -733,12 +734,15 @@ defineExpose({
           </div>
           <div class="playlist-title">播放列表</div>
           <div class="playlist-close">
-            <span v-on:click="showPlaylist = false">收起</span>
+            <span v-on:click="isPlaylistEditable = !isPlaylistEditable"
+              >编辑</span
+            >
           </div>
         </div>
         <div class="c-playlist-songList" ref="playlistcontentref">
           <draggable
             v-bind="dragOptions"
+            :disabled="!isPlaylistEditable"
             @start="drag = true"
             @end="drag = false"
             v-model="playlist"
@@ -763,20 +767,35 @@ defineExpose({
                 v-show="playlist[0]?.id !== 'empty_song'"
                 v-on:click="changeSong(index)"
               >
+                <Transition duration="550" name="shadowleft">
+                  <div
+                    class="playlist-draggable-icon handle"
+                    v-if="isPlaylistEditable === true"
+                  />
+                  <div
+                    class="playlist-index"
+                    v-else-if="isPlaylistEditable === false"
+                  >
+                    {{ index + 1 }}.
+                  </div>
+                </Transition>
+
                 <div class="playlist-name handle">
-                  <span class="playlist-index">{{ index + 1 }}. </span
-                  >{{ element.name }}
+                  {{ element.name }}
                 </div>
-                <div class="playlist-dash">-</div>
-                <div class="playlist-artist">{{ element.artist }}</div>
+                <div class="playlist-dash handle">-</div>
+                <div class="playlist-artist handle">{{ element.artist }}</div>
                 <div class="playlist-status">{{ element.status }}</div>
                 <div class="playlist-duration">{{ element.duration }}</div>
-                <div
-                  class="playlist-clear"
-                  v-on:click.stop="playlistRemoveSong(index)"
-                >
-                  <div class="playlist-clear-img"></div>
-                </div>
+                <Transition duration="550" name="shadowright">
+                  <div
+                    class="playlist-clear"
+                    v-on:click.stop="playlistRemoveSong(index)"
+                    v-show="isPlaylistEditable"
+                  >
+                    <div class="playlist-clear-img"></div>
+                  </div>
+                </Transition>
               </div>
             </template>
           </draggable>
