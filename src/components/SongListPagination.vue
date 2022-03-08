@@ -21,7 +21,7 @@ const perPageOption = ref([
   { text: "20", value: 20 },
   { text: "50", value: 50 },
   { text: "100", value: 100 },
-  { text: "全部", value: 999999 },
+  { text: "all", value: 999999 },
 ]);
 const inputPage = ref(1);
 const currentPage = ref(null);
@@ -81,9 +81,9 @@ watch(
       {{ (nPage - 1) * nPerPage + 1 }}-{{
         Math.min(nPage * nPerPage, total)
       }}
-      共{{ total }}首
+      {{ $t('totalNumber', {number: total}) }}
     </div>
-    <div class="pagination-item pagination-per-page-label">每页数量:</div>
+    <div class="pagination-item pagination-per-page-label">{{ $t('numberPerList') }}</div>
     <select
       class="pagination-item pagination-per-page-select"
       v-model="nPerPage"
@@ -94,7 +94,7 @@ watch(
         v-bind:value="option.value"
         v-bind:key="option.text"
       >
-        {{ option.text }}
+        {{ $t(option.text) }}
       </option>
     </select>
     <div class="pagination-item c-pagination-go">
