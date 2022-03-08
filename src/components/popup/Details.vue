@@ -16,18 +16,18 @@ const emit = defineEmits(["closepopup"]);
 </script>
 
 <template>
-  <MainPopUp v-on:closepopup="$emit('closepopup')" title="歌曲详情">
+  <MainPopUp v-on:closepopup="$emit('closepopup')" :title="$t('songDetail')">
     <div class="content">
-      <p><span>歌名：</span>{{ props.song?.name }}</p>
-      <p><span>演唱者：</span>{{ props.song?.artist }}</p>
-      <p><span>演唱状态：</span>{{ props.song?.status }}</p>
+      <p><span>{{ $t('songName')  }}：</span>{{ props.song?.name }}</p>
+      <p><span>{{ $t('singer')  }}：</span>{{ props.song?.artist }}</p>
+      <p><span>{{ $t('status')  }}：</span>{{ props.song?.status }}</p>
       <p v-if="props.song?.orginal_artist !== ''">
-        <span>原唱：</span>{{ props.song?.orginal_artist }}
+        <span>{{ $t('originalArtist')  }}：</span>{{ props.song?.orginal_artist }}
       </p>
-      <p><span>语言：</span>{{ props.song?.language }}</p>
-      <p><span>备注：</span>{{ props.song?.note }}</p>
+      <p><span>{{ $t('language')  }}：</span>{{ props.song?.language }}</p>
+      <p><span>{{ $t('notes')  }}</span>{{ props.song?.note }}</p>
       <p>
-        <span>对应录播：</span>
+        <span>{{ $t('record')  }}：</span>
         <a
           v-bind:href="
             'https://www.bilibili.com/video/' +
@@ -42,10 +42,10 @@ const emit = defineEmits(["closepopup"]);
         >
           {{ props.song?.date }} p{{ props.song?.record.p }}
         </a>
-        <span>时间点：</span>{{ props.song?.record.timecode }}
+        <span>{{ $t('timestamp')  }}：</span>{{ props.song?.record.timecode }}
       </p>
       <p v-if="props.song?.ref !== false">
-        <span>参考的路灯man：</span>
+        <span>{{ $t('reference')  }}：</span>
         <a
           v-bind:href="'https://space.bilibili.com/' + props.song?.ref.uid"
           target="_blank"
@@ -55,7 +55,7 @@ const emit = defineEmits(["closepopup"]);
         </a>
       </p>
       <p v-if="props.song?.ref_cut !== false">
-        感谢
+        {{ $t('thanks1')  }}
         <a
           v-bind:href="'https://space.bilibili.com/' + props.song?.ref_cut.uid"
           target="_blank"
@@ -63,7 +63,7 @@ const emit = defineEmits(["closepopup"]);
         >
           @{{ props.song?.ref_cut.name }}
         </a>
-        提供的音频！
+        {{ $t('thanks2')  }}
       </p>
     </div>
   </MainPopUp>

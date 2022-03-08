@@ -79,9 +79,9 @@ const progressBarButtonLeft = computed(() => {
 });
 
 const playModeText = computed(() => {
-  if (playMode.value === "loop") return "列表循环";
-  if (playMode.value === "loopOnce") return "单曲循环";
-  return "随机";
+  if (playMode.value === "loop") return "listLoop";
+  if (playMode.value === "loopOnce") return "songLoop";
+  return "shuffle";
 });
 
 const playlistLength = computed(() => {
@@ -613,7 +613,7 @@ defineExpose({
             <div
               class="playModeButton otherButtons"
               v-on:click="switchPlayMode"
-              v-bind:title="playModeText"
+              v-bind:title="$t(playMode)"
             >
               <div class="loopIcon" v-show="playMode == 'loop'" />
               <div class="loopOnceIcon" v-show="playMode == 'loopOnce'" />
@@ -623,7 +623,7 @@ defineExpose({
               <div
                 class="volumeButton otherButtons"
                 v-on:click="showVolumeBar = !showVolumeBar"
-                title="音量"
+                :title="$t('volume')"
               >
                 <div class="volumeIcon" />
               </div>
@@ -649,14 +649,14 @@ defineExpose({
             <div
               class="prevButton playButtons"
               v-on:click="nextSong(-1)"
-              title="上一曲"
+              :title="$t('previousSong')"
             >
               <div></div>
             </div>
             <div
               class="playButton playButtons"
               v-on:click="audioTogglePlay"
-              title="按下空格播放/暂停"
+              :title="$t('playButton')"
             >
               <div
                 v-bind:class="[
@@ -669,7 +669,7 @@ defineExpose({
             <div
               class="nextButton playButtons"
               v-on:click="nextSong(1)"
-              title="下一曲"
+              :title="$t('nextSong')"
             >
               <div></div>
             </div>
@@ -678,7 +678,7 @@ defineExpose({
             <div
               class="loveButton otherButtons"
               v-on:click="toggleLoved"
-              title="设为星标歌曲"
+              :title="$t('favoriteSong')"
             >
               <div v-show="!isLoved" class="isLovedOff" />
               <div v-show="isLoved" class="isLovedOn" />
@@ -686,7 +686,7 @@ defineExpose({
             <div
               class="playlistButton otherButtons"
               v-on:click="showPlaylist = !showPlaylist"
-              title="播放列表"
+              :title="$t('playList')"
               ref="playlistbuttonref"
             >
               <div class="playlistButton-img"></div>
@@ -729,11 +729,11 @@ defineExpose({
       <div class="c-playlist" v-show="showPlaylist" ref="playlistref">
         <div class="c-playlist-title">
           <div class="playlist-clearAll">
-            <span v-on:click="playlistClear">清空</span>
+            <span v-on:click="playlistClear">{{ $t('empty') }}</span>
           </div>
-          <div class="playlist-title">播放列表</div>
+          <div class="playlist-title">{{ $t('playList') }}</div>
           <div class="playlist-close">
-            <span v-on:click="showPlaylist = false">收起</span>
+            <span v-on:click="showPlaylist = false">{{ $t('collapse') }}</span>
           </div>
         </div>
         <div class="c-playlist-songList" ref="playlistcontentref">
@@ -808,7 +808,7 @@ defineExpose({
             </div>
           </div> -->
           <div class="playlist-empty" v-show="playlist[0]?.id === 'empty_song'">
-            播放列表为空
+            {{ $t('playListEmpty') }}
           </div>
         </div>
       </div>

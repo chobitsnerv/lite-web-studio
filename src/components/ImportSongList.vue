@@ -14,7 +14,7 @@ const tooltipsContent = ref("");
 
 const importCode = () => {
   if (sharecode.value.trim().length === 0) {
-    tooltipsContent.value = "你没粘贴东西?";
+    tooltipsContent.value = $t('noPasteItem');
     return;
   }
   const _songList = utils.decodeShare(sharecode.value.trim());
@@ -23,8 +23,8 @@ const importCode = () => {
       "playlist-replace-event",
       _songList.filter((s) => s.has_audio)
     );
-    tooltipsContent.value = "导入成功!";
-  } else tooltipsContent.value = "歌单代码错误，请重新复制一下试试~";
+    tooltipsContent.value = $t('importSuccess');
+  } else tooltipsContent.value = $t('songListCodeError');
   sharecode.value = "";
 };
 </script>
@@ -32,9 +32,9 @@ const importCode = () => {
 <template>
   <div class="c-import card">
     <div class="import-info">
-      <div>粘贴代码导入歌单：</div>
+      <div>{{ $t('importSongListByCode') }}</div>
       <VTooltip :showTriggers="['click']" :hideTriggers="['hover']">
-        <button class="import-button" v-on:click="importCode">导入！</button>
+        <button class="import-button" v-on:click="importCode">{{ $t('import') }}</button>
         <template #popper> {{ tooltipsContent }} </template>
       </VTooltip>
     </div>
