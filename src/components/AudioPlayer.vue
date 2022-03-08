@@ -734,9 +734,16 @@ defineExpose({
           </div>
           <div class="playlist-title">{{ $t("playList") }}</div>
           <div class="playlist-close">
-            <span v-on:click="isPlaylistEditable = !isPlaylistEditable">{{
-              $t("collapse")
-            }}</span>
+            <span
+              v-on:click="isPlaylistEditable = !isPlaylistEditable"
+              v-show="!isPlaylistEditable"
+              >{{ $t("edit") }}</span
+            >
+            <span
+              v-on:click="isPlaylistEditable = !isPlaylistEditable"
+              v-show="isPlaylistEditable"
+              >{{ $t("done") }}</span
+            >
           </div>
         </div>
         <div class="c-playlist-songList" ref="playlistcontentref">
