@@ -5,6 +5,24 @@ export default defineComponent({
 });
 </script>
 
+<script setup>
+import {ref, watch} from "vue";
+
+const timeOptions = ref([
+  { text: "15分钟", value: 15 },
+  { text: "30分钟", value: 30 },
+  { text: "60分钟", value: 60 },
+  { text: "120分钟", value: 120 },
+  { text: "自定义", value: "custom" },
+]);
+const timeOption = ref(15);
+watch(timeOption, (newV) => {
+  if (newV) {
+    console.log(timeOption.value)
+  }
+});
+</script>
+
 <template>
   <div class="c-title card">
     <div class="banner-video">
@@ -17,6 +35,19 @@ export default defineComponent({
     </div>
     <div class="title-info">
       <h1>{{ $t('bannerTitle') }}</h1>
+
+      <select
+          class="general-input countdown-select"
+          v-model="timeOption"
+      >
+        <option
+            v-for="option in timeOptions"
+            v-bind:key="option.text"
+            v-bind:value="option.value"
+        >
+          {{ option.text }}
+        </option>
+      </select>
       <div class="title-detail">
         <div>{{ $t('banner1') }}</div>
         <div>{{ $t('banner2') }}</div>
