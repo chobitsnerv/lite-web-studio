@@ -11,7 +11,7 @@ import "floating-vue/dist/style.css";
 import { initStoragePersistence } from "utils/persistence.js";
 
 initStoragePersistence();
-import {i18n} from "./i18n/locale";
+import { i18n } from "i18n/locale.js";
 
 // 从localStorage读取喜爱列表
 AudioLists.love_list = utils.readLoveList();

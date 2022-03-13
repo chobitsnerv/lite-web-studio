@@ -1,17 +1,15 @@
 <script>
-import {i18n} from "./i18n/locale";
-
+import { ref, onMounted } from "vue";
 export default {
   name: "App",
-  components: i18n
 };
 </script>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import bus from "vue3-eventbus";
 import song_data from "utils/data.js";
 import utils from "utils/utils.js";
-import bus from "vue3-eventbus";
+import { i18n } from "i18n/locale.js";
 import MainSongList from "components/MainSongList.vue";
 import AudioPlayer from "components/AudioPlayer.vue";
 import Banner from "components/Banner.vue";
