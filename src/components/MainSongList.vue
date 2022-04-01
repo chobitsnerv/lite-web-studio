@@ -240,7 +240,7 @@ onMounted(() => {
           <div class="item-column-op all-column all-column-op">
             <div
               class="item-op-download item-op-all"
-              title="$t('download')"
+              :title="$t('cache')"
               v-show="song.has_audio && !isCached[idx]"
               v-on:click.stop="cacheAudioLocally(song)"
             >
@@ -253,7 +253,7 @@ onMounted(() => {
             </div>
             <div
               class="item-op-downloaded item-op-all"
-              title="移除歌曲"
+              :title="$t('remove')"
               v-show="song.has_audio && isCached[idx]"
               v-on:click.stop="decacheAudioLocally(song.id)"
             >
@@ -308,7 +308,7 @@ onMounted(() => {
                 {{ song.artist }}
               </div>
               <div class="song-status all-column all-column-status">
-                {{ song.status }}
+                {{ $t(song.status) }}
               </div>
             </div>
             <div class="song-info-date">
@@ -329,7 +329,7 @@ onMounted(() => {
         </div>
         <div class="song-list-item-details" v-show="isExpanded[idx]">
           <div class="song-full-details-language">
-            {{ $t('language') }}: {{ song.language }}
+            {{ $t('language') }}: {{ $t(song.language) }}
           </div>
           <div
             class="song-full-details-orginal"

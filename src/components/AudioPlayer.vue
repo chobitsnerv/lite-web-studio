@@ -694,7 +694,7 @@ defineExpose({
             <div
               class="playModeButton otherButtons"
               v-on:click="switchPlayMode"
-              v-bind:title="$t('playModeText')"
+              v-bind:title="$t(playMode)"
             >
               <div class="loopIcon" v-show="playMode == 'loop'" />
               <div class="loopOnceIcon" v-show="playMode == 'loopOnce'" />
@@ -704,7 +704,7 @@ defineExpose({
               <div
                 class="volumeButton otherButtons"
                 v-on:click="showVolumeBar = !showVolumeBar"
-                title="$t('volume')"
+                :title="$t('volume')"
               >
                 <div class="volumeIcon" />
               </div>
@@ -730,14 +730,14 @@ defineExpose({
             <div
               class="prevButton playButtons"
               v-on:click="nextSong(-1)"
-              title="$t('previousSong')"
+              :title="$t('previousSong')"
             >
               <div></div>
             </div>
             <div
               class="playButton playButtons"
               v-on:click="audioTogglePlay"
-              title="$t('playButton')"
+              :title="$t('playButton')"
             >
               <div
                 v-bind:class="[
@@ -750,7 +750,7 @@ defineExpose({
             <div
               class="nextButton playButtons"
               v-on:click="nextSong(1)"
-              title="$t('nextSong')"
+              :title="$t('nextSong')"
             >
               <div></div>
             </div>
@@ -759,7 +759,7 @@ defineExpose({
             <div
               class="loveButton otherButtons"
               v-on:click="toggleLoved"
-              title="$t('favoriteSong')"
+              :title="$t('favoriteSong')"
             >
               <div v-show="!isLoved" class="isLovedOff" />
               <div v-show="isLoved" class="isLovedOn" />
@@ -767,7 +767,7 @@ defineExpose({
             <div
               class="playlistButton otherButtons"
               v-on:click="showPlaylist = !showPlaylist"
-              title="$t('playList')"
+              :title="$t('playList')"
               ref="playlistbuttonref"
             >
               <div class="playlistButton-img"></div>
