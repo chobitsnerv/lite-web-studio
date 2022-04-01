@@ -80,10 +80,8 @@ export default defineConfig({
         find: "globals",
         replacement: path.resolve(__dirname, "./src/globals"),
       },
-      {
-        find: "styles",
-        replacement: path.resolve(__dirname, "./src/styles"),
-      },
+      { find: "i18n", replacement: path.resolve(__dirname, "./src/i18n") },
+      { find: "styles", replacement: path.resolve(__dirname, "./src/styles") },
       { find: "utils", replacement: path.resolve(__dirname, "./src/utils") },
     ],
   },

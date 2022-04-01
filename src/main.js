@@ -7,7 +7,7 @@ import Variables from "globals/variables.js";
 import Consts from "globals/consts.js";
 import utils from "utils/utils.js";
 import eventBus from "vue3-eventbus";
-import { i18n } from "./i18n/locale";
+import { i18n } from "i18n/locale.js";
 import "floating-vue/dist/style.css";
 import { initStoragePersistence } from "utils/persistence.js";
 
