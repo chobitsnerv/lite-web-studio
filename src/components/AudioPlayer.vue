@@ -854,6 +854,19 @@ defineExpose({
                 v-show="playlist[0]?.id !== 'empty_song'"
                 v-on:click="changeSong(index)"
               >
+                <Transition duration="450" name="shadowleft">
+                  <div
+                    class="playlist-draggable-icon handle"
+                    v-if="isPlaylistEditable === true"
+                  />
+                  <div
+                    class="playlist-index"
+                    v-else-if="isPlaylistEditable === false"
+                  >
+                    {{ index + 1 }}.
+                  </div>
+                </Transition>
+
                 <div class="playlist-name handle">
                   <span class="playlist-index">{{ index + 1 }}. </span
                   >{{ element.name }}
