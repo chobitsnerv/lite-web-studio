@@ -262,7 +262,7 @@ onMounted(() => {
         v-bind:key=filter_item.name
       >
         <div class="filter-item-label">
-          <div>{{ $t(filter_item.name) }}:</div>
+          <div>{{ $t(filter_item.text) }}:</div>
           <el-switch
             v-model="artistExactMacth"
             inline-prompt
