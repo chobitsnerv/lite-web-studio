@@ -415,6 +415,13 @@
 .c-playlist-playing {
   background-color: rgb(243, 243, 243);
 }
+.playlist-draggable-icon {
+  width: 1.5em;
+  height: 1.5em;
+  background-image: url("/node_modules/bootstrap-icons/icons/list.svg");
+  background-position: center;
+  background-size: contain;
+}
 .playlist-name {
   flex-shrink: 1;
   font-size: 1rem;
@@ -468,6 +475,44 @@
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;
+}
+
+.shadowleft-enter-active,
+.shadowleft-leave-active {
+  transition: all 0.2s ease-in-out;
+}
+/* delay leave of parent element */
+.shadowleft-enter-active {
+  transition-delay: 0.15s;
+}
+
+.shadowleft-enter-from {
+  transform: translateY(5px);
+  opacity: 0;
+}
+
+.shadowleft-leave-to {
+  transform: translateX(-5px);
+  opacity: 0;
+}
+
+.shadowright-enter-active,
+.shadowright-leave-active {
+  transition: all 0.2s ease-in-out;
+}
+/* delay leave of parent element */
+.shadowright-enter-active {
+  transition-delay: 0.15s;
+}
+
+.shadowright-enter-from {
+  transform: translateY(5px);
+  opacity: 0;
+}
+
+.shadowright-leave-to {
+  transform: translateX(5px);
+  opacity: 0;
 }
 
 @media (any-hover: hover) {

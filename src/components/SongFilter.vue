@@ -288,11 +288,20 @@ onMounted(() => {
         >
           <el-option
             v-for="option in filter_item.options"
+<<<<<<< HEAD
             :key="option"
             :label="option"
             :value="option"
           />
         </el-select>
+=======
+            v-bind:value="option"
+            v-bind:key="option"
+          >
+            {{ $t(option) }}
+          </option>
+        </select>
+>>>>>>> release2.0
       </div>
       <div class="filter-item">
         <input

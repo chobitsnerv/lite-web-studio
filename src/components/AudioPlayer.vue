@@ -479,6 +479,7 @@ const updateCurrentSongIndex = (evt) => {
     currentSongIndex.value = _actualCurrentSongIndex;
 };
 
+<<<<<<< HEAD
 let scrollPosition = 0;
 // 弹出框出现时锁定背景防止滚动穿透
 const lockBackGroundForPopup = () => {
@@ -501,6 +502,8 @@ const unlockBackGroundForPopup = () => {
   unlock(playlistcontentref.value);
 };
 
+=======
+>>>>>>> release2.0
 onMounted(() => {
   audio = document.getElementById("lite_player");
   audioSource = document.getElementById("lite_player_source");
@@ -810,9 +813,15 @@ defineExpose({
       <div class="c-playlist" v-show="showPlaylist" ref="playlistref">
         <div class="c-playlist-title">
           <div class="playlist-clearAll">
+<<<<<<< HEAD
             <span v-on:click="playlistClear">{{ $t('empty') }}</span>
           </div>
           <div class="playlist-title">{{ $t('playList') }}</div>
+=======
+            <span v-on:click="playlistClear">{{ $t("empty") }}</span>
+          </div>
+          <div class="playlist-title">{{ $t("playList") }}</div>
+>>>>>>> release2.0
           <div class="playlist-close">
             <span
               v-on:click="isPlaylistEditable = !isPlaylistEditable"
@@ -829,6 +838,7 @@ defineExpose({
         <div class="c-playlist-songList" ref="playlistcontentref">
           <draggable
             v-bind="dragOptions"
+            :disabled="!isPlaylistEditable"
             @start="drag = true"
             @end="drag = false"
             v-model="playlist"
@@ -868,19 +878,21 @@ defineExpose({
                 </Transition>
 
                 <div class="playlist-name handle">
-                  <span class="playlist-index">{{ index + 1 }}. </span
-                  >{{ element.name }}
+                  {{ element.name }}
                 </div>
                 <div class="playlist-dash">-</div>
                 <div class="playlist-artist">{{ element.artist }}</div>
                 <div class="playlist-status">{{ element.status }}</div>
                 <div class="playlist-duration">{{ element.duration }}</div>
-                <div
-                  class="playlist-clear"
-                  v-on:click.stop="playlistRemoveSong(index)"
-                >
-                  <div class="playlist-clear-img"></div>
-                </div>
+                <Transition duration="550" name="shadowright">
+                  <div
+                    class="playlist-clear"
+                    v-on:click.stop="playlistRemoveSong(index)"
+                    v-show="isPlaylistEditable"
+                  >
+                    <div class="playlist-clear-img"></div>
+                  </div>
+                </Transition>
               </div>
             </template>
           </draggable>
@@ -912,7 +924,11 @@ defineExpose({
             </div>
           </div> -->
           <div class="playlist-empty" v-show="playlist[0]?.id === 'empty_song'">
+<<<<<<< HEAD
             {{ $t('playListEmpty') }}
+=======
+            {{ $t("playListEmpty") }}
+>>>>>>> release2.0
           </div>
         </div>
       </div>

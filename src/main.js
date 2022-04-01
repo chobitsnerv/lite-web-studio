@@ -18,6 +18,7 @@ if (parsedUrl.searchParams.get("clearcache") !== null) {
 }
 
 initStoragePersistence();
+import { i18n } from "i18n/locale.js";
 
 // 从localStorage读取喜爱列表
 AudioLists.love_list = utils.readLoveList();
