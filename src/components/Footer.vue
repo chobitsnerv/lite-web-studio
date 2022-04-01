@@ -68,11 +68,6 @@ onMounted(() => {
       >
       {{ $t('footer5') }}
     </p>
-    <hr />
-    <p>
-      {{ $t('footer6') }}
-      <a v-on:click="showCredit = true" class="credit">{{ $t('footer7') }}</a>
-    </p>
     <p>
       {{ $t('footer8') }}
       <a
@@ -84,7 +79,7 @@ onMounted(() => {
     </p>
     <hr />
     <p class="links">
-      {{ $t('link') }}
+      {{ $t('recordSource') }}
       <a
         href="https://asoul1.asoul-rec.com/"
         target="_blank"
@@ -94,7 +89,7 @@ onMounted(() => {
     </p>
     <p>
       {{ $t('footer6') }}
-      <a v-on:click="showCredit = true" class="credit">关于本站</a>
+      <a v-on:click="showCredit = true" class="credit">{{ $t('footer7') }}</a>
     </p>
     <p>
       {{ $t('footer9') }}
