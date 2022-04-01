@@ -30,6 +30,7 @@ const showDetails = ref(false);
 const playStatus = ref(false);
 const audioLoading = ref(false);
 const autoPlay = ref(false);
+const isPlaylistEditable = ref(false);
 const isChResource = ref(window.Variables.use_ch_resource);
 const playMode = ref("loop");
 const volume = ref(0.9);
