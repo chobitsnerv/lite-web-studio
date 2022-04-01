@@ -20,13 +20,13 @@ onMounted(() => {
 <template>
   <div class="c-footer">
     <p>
-      或许你还不十分了解
+      {{ $t('footer1') }}
       <a
         href="https://zh.moegirl.org.cn/A-SOUL"
         target="_blank"
         rel="noreferrer noopener"
         >A-SOUL</a
-      >？ 赶快去看看她们的直播间：
+      >{{ $t('footer2') }}
       <a
         href="https://live.bilibili.com/22625025"
         target="_blank"
@@ -59,17 +59,22 @@ onMounted(() => {
       >
     </p>
     <p>
-      欢迎加入
+      {{ $t('footer3') }}
       <a
         href="https://discord.gg/a-soul"
         target="_blank"
         rel="noreferrer noopener"
-        >A-Soul的非官方社区DC频道</a
+        >{{ $t('footer4') }}</a
       >
-      ，这边有面向海外AU小伙伴的转播服务和AS社区建设交流频道。
+      {{ $t('footer5') }}
+    </p>
+    <hr />
+    <p>
+      {{ $t('footer6') }}
+      <a v-on:click="showCredit = true" class="credit">{{ $t('footer7') }}</a>
     </p>
     <p>
-      试着关注一下这个b站的二创小伙伴？
+      {{ $t('footer8') }}
       <a
         v-bind:href="'https://space.bilibili.com/' + cutter[0]"
         target="_blank"
@@ -78,13 +83,13 @@ onMounted(() => {
       >
     </p>
     <hr />
-    <p>
-      录播资源，翻唱切片等请访问：
+    <p class="links">
+      {{ $t('link') }}
       <a
         href="https://asoul1.asoul-rec.com/"
         target="_blank"
         rel="noreferrer noopener"
-        >A-SOUL录播站</a
+        >{{ $t('A-SOULRecord') }}</a
       >
     </p>
     <p>
@@ -107,7 +112,7 @@ onMounted(() => {
         href="https://www.youtube.com/channel/UCrC6Xdxx5Jmo3m0cPi-u_cw"
         target="_blank"
         rel="noreferrer noopener"
-        >A-soul Moments油管频道</a
+        >{{ $t('A-soulMomentsYoutube') }}</a
       >
       <a href="https://asoul.jp/" target="_blank" rel="noreferrer noopener"
         >ASファンサイト</a

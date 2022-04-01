@@ -23,6 +23,7 @@
     "tua-body-scroll-lock": "^1.2.1",
     "vite-plugin-chunk-split": "^0.0.1",
     "vue": "^3.2.31",
+    "vue-i18n": "^9.1.9",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {

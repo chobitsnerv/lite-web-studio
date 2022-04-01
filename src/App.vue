@@ -1,6 +1,9 @@
 <script>
+import {i18n} from "./i18n/locale";
+
 export default {
   name: "App",
+  components: i18n
 };
 </script>
 
