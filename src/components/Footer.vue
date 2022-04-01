@@ -93,11 +93,11 @@ onMounted(() => {
       >
     </p>
     <p>
-      AS社区的很多小伙伴们为本站提供了莫大的帮忙，戳这里看看->
+      {{ $t('footer6') }}
       <a v-on:click="showCredit = true" class="credit">关于本站</a>
     </p>
     <p>
-      录音棚版本更新情报，资源文件报错反馈，问题咨询和新功能建议等请关注并私信联系：
+      {{ $t('footer9') }}
       <a
         href="https://space.bilibili.com/674044855"
         target="_blank"
@@ -107,7 +107,7 @@ onMounted(() => {
     </p>
     <hr />
     <p class="links">
-      友情链接：
+      {{ $t('link') }}
       <a
         href="https://www.youtube.com/channel/UCrC6Xdxx5Jmo3m0cPi-u_cw"
         target="_blank"
