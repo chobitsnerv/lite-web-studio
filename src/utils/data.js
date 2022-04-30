@@ -1,9 +1,9 @@
 import { parse } from "csv-parse/browser/esm/sync";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import song_list from "utils/song_list.js";
-import utils from "utils/utils.js";
-import { getDataSheetsLocal, getDataSheetsRemote } from "apis/datasheet.js";
+import song_list from "./song_list.js";
+import utils from "./utils.js";
+import { getDataSheetsLocal, getDataSheetsRemote } from "../apis/datasheet.js";
 
 // function fetch_csv(url) {
 //   return fetch(url, {
