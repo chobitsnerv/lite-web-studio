@@ -23,11 +23,14 @@
     "tua-body-scroll-lock": "^1.2.1",
     "vite-plugin-chunk-split": "^0.2.2",
     "vue": "^3.2.31",
+    "vue-router": "^4.0.14",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@iconify-json/ic": "^1.1.2",
     "@iconify-json/ion": "^1.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
     "@vitejs/plugin-vue": "^2.3.1",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
@@ -36,6 +39,7 @@
     "prettier": "2.6.2",
     "rollup-plugin-visualizer": "^5.6.0",
     "sass": "^1.50.0",
+    "typescript": "^4.6.3",
     "unplugin-auto-import": "^0.7.1",
     "unplugin-icons": "^0.14.1",
     "unplugin-vue-components": "^0.19.3",
@@ -43,5 +47,8 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-radar": "^0.4.2",
     "vue3-eventbus": "^2.0.0"
+  },
+  "moduleNameMapper": {
+    "^@/(.*)": "<rootDir/src/$1>"
   }
 }

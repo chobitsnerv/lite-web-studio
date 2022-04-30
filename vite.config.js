@@ -105,6 +105,7 @@ export default defineConfig({
     },
   },
   resolve: {
+    extensions:['.vue','.js','.ts'],
     alias: [
       { find: "@", replacement: path.resolve(__dirname, "./src") },
       { find: "apis", replacement: path.resolve(__dirname, "./src/apis") },
