@@ -10,21 +10,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default defineComponent({
   name: "MusicListCard",
 });
+
 </script>
 
-<script setup>
+<script lang="ts" setup>
 import {ref} from "vue";
 import {router} from "@/router/router";
+import {SongCollection} from "@/types/HomePage/HomePageTypes";
 
 const colorSubstitute=["#E799B0","#576690","#B8A6D9","#BD7D74","#9AC8E2"][Math.floor(5*Math.random())];
 const url=ref("")
-const props=defineProps(['song'])
+
+const props=defineProps<{
+  song:SongCollection
+}>()
+
 function onSongListCardClicked(){
-  console.log(props.song)
   router.push({path:'songlist',query:{id:props.song.name},state:{song:toRaw(props.song)}})
 }
 </script>

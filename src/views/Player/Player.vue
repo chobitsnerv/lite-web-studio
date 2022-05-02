@@ -10,7 +10,7 @@
           <svg v-else-if="playState.state==='playing'" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7 5v14M17 5v14"/></svg>
           <svg v-else xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8A8 8 0 0 1 12 20Z" opacity=".5"/><path fill="currentColor" d="M20 12h2A10 10 0 0 0 12 2V4A8 8 0 0 1 20 12Z"><animateTransform attributeName="transform" dur="1s" from="0 12 12" repeatCount="indefinite" to="360 12 12" type="rotate"/></path></svg>
         </div>
-        <div class="tools-musicList">
+        <div class="tools-musicList" @click="onMusicListButtonClicked">
           <i-ic-round-queue-music />
          </div>
       </div>
@@ -42,6 +42,17 @@
 
     </div>
   </div>
+  <div v-if="shouldPlayingListShow!=='close'"
+       class="nowPlayingList"
+       :class="{'nowPlayingList-close':shouldPlayingListShow==='pending'}"
+       @animationend="onPlayingListCloseAnimationEnded"
+  >
+    <NowPlayingList
+        :now-playing-list="audioPlayList"
+        :play-state="playState"
+        @close="onMusicListButtonClicked"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -49,6 +60,7 @@ import { Song } from "@/types/HomePage/HomePageTypes";
 import {AudioEventEmitter, PlayState} from "@/views/Player/audioEventEmitter";
 import {ref} from "vue";
 import utils from '@/utils/utils.js'
+import NowPlayingList from "@/views/Player/NowPlayingList.vue";
 
 const audioEmitter= AudioEventEmitter.getInstance()
 const audioPlayer = ref<HTMLAudioElement>()
@@ -61,10 +73,11 @@ const playState=ref<PlayState>({
   state:'stopped',
   duration:0
 })
+const shouldPlayingListShow=ref<'open'|'pending'|'close'>('close')
 const elapsedPercent=ref(-100)
 //TODO 缓存
 const applySong = async () => {
-  let _src = null;
+  let _src: null;
   _src = utils.getResourceURL(
       !(playState.value.nowPlaying!.has_sec_version === "TRUE"),
       true,
@@ -94,10 +107,23 @@ function onPlayButtonClicked(){
   }
   applySong()
 }
+function onMusicListButtonClicked(){
+  if(shouldPlayingListShow.value==='open'){
+    shouldPlayingListShow.value='pending'
+  }else if(shouldPlayingListShow.value==='close'){
+    shouldPlayingListShow.value='open';
+  }
+}
 function timeParser(time:number){
   let minute=Math.floor(time/60)
   let second=Math.floor(time)-minute*60
   return `${minute<10?0:''}${minute}:${second<10?0:''}${second}`
+}
+function onPlayingListCloseAnimationEnded(){
+  console.log(1)
+  if(shouldPlayingListShow.value==='pending'){
+    shouldPlayingListShow.value='close'
+  }
 }
 onMounted(()=>{
   audioEmitter.on('audioNowPlayingListGlobalChanged',()=>{
@@ -153,6 +179,8 @@ export default defineComponent({
     color:white;
     display: flex;
     align-items: center;
+    position: relative;
+
     justify-content: space-between;
     .titleBar-songinfo{
       margin-left:10px;
@@ -231,5 +259,31 @@ export default defineComponent({
     }
 
   }
+}
+@keyframes nowPlayingListPopup {
+  from{
+    top:0;
+  }
+  to{
+    top:-160px;
+  }
+}
+@keyframes nowPlayingListClose {
+  from{
+    top:-160px;
+  }
+  to{
+    top:160px;
+  }
+}
+.nowPlayingList{
+  position:absolute;
+  width: 100%;
+  top:-160px;
+  z-index: -1;
+  animation: nowPlayingListPopup 0.2s ease-in-out;
+}
+.nowPlayingList-close{
+  animation: nowPlayingListClose 0.2s ease-in-out;
 }
 </style>

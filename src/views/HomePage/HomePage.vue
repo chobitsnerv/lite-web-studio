@@ -41,7 +41,12 @@
       </div>
     </div>
     <div v-if="mySongListNavIndex===0" class="mySongList-list">
-      <div  v-for="item in _debugSongCollection.slice(5)" :key="item.name" class="mySongList-list-item">
+      <div
+            v-for="item in _debugSongCollection.slice(5)"
+            :key="item.name"
+            class="mySongList-list-item"
+            @click="onMySongListCardClicked(item)"
+      >
         <div class="mySongList-list-item-img" :style="{backgroundColor:colorSubstitute}">
         </div>
         <div class="mySongList-list-item-desc">
@@ -78,12 +83,16 @@ export default defineComponent({
 import MusicListCard from './MusicListCard'
 import {Search} from '@element-plus/icons-vue'
 import {SongCollection} from "@/types/HomePage/HomePageTypes";
+import {router} from "@/router/router";
 const colorSubstitute=["#E799B0","#576690","#B8A6D9","#BD7D74","#9AC8E2"][Math.floor(5*Math.random())];
 const _debugSongCollection=ref<Array<SongCollection>>(window[Symbol.for('audioListGlobal')].song_collection)
 const searchText=ref('')
 const mySongListNavIndex=ref(0)
 function changeMySongListNavIndex(index:number){
   mySongListNavIndex.value=index
+}
+function onMySongListCardClicked(item:SongCollection){
+  router.push({path:'songlist',query:{id:item.name},state:{song:toRaw(item)}})
 }
 </script>
 
