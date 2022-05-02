@@ -29,6 +29,7 @@
   "devDependencies": {
     "@iconify-json/ic": "^1.1.2",
     "@iconify-json/ion": "^1.1.1",
+    "@types/node": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "@vitejs/plugin-vue": "^2.3.1",
