@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <div class="homepage-search">
-      <div class="search-input">
-        <el-icon>
-          <Search/>
-        </el-icon>
-        <input v-model="searchText" type="text" placeholder="Search">
-      </div>
+  <div class="homepage-search">
+    <div class="search-input" @click="onSearchBarClicked">
+      <el-icon>
+        <Search/>
+      </el-icon>
+      <span class="search-input-placeholder">Search</span>
     </div>
   </div>
   <div class="homepage-songList">
@@ -94,6 +92,9 @@ function changeMySongListNavIndex(index:number){
 function onMySongListCardClicked(item:SongCollection){
   router.push({path:'songlist',query:{id:item.name},state:{song:toRaw(item)}})
 }
+function onSearchBarClicked(){
+  router.push({path:'search'})
+}
 </script>
 
 <style lang="scss" scoped>
@@ -110,6 +111,14 @@ function onMySongListCardClicked(item:SongCollection){
       border:none;
       font-size: 12px;
     }
+    .search-input-placeholder{
+      font-size: 12px;
+      margin-left: 4px;
+      color:gray;
+    }
+  }
+  &:hover{
+    cursor: pointer;
   }
 }
 .homepage-songList{

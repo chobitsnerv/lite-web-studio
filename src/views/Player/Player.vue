@@ -273,7 +273,7 @@ export default defineComponent({
     top:-160px;
   }
   to{
-    top:160px;
+    top:220px;
   }
 }
 .nowPlayingList{
@@ -284,6 +284,6 @@ export default defineComponent({
   animation: nowPlayingListPopup 0.2s ease-in-out;
 }
 .nowPlayingList-close{
-  animation: nowPlayingListClose 0.2s ease-in-out;
+  animation: nowPlayingListClose 0.14s ease-in-out;
 }
 </style>
