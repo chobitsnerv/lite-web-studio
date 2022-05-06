@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="mySongList-list-addNew">
+      <div class="mySongList-list-addNew" @click="onAddNewButtonClicked">
         <div class="mySongList-addNew-icon">
           <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-ba633cb8=""><path fill="currentColor" d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"></path></svg>
         </div>
@@ -66,9 +66,21 @@
       </div>
     </div>
     <div v-else class="mySongList-list">
-      2
+      <div class="mySongList-list-addNew" @click="onAddNewButtonClicked">
+        <div class="mySongList-favorite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="36" height="36" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15C-7.534 4.736 3.562-3.248 8 1.314z"/></svg></div>
+        <div class="mySongList-addNew-desc">
+          我喜欢
+        </div>
+      </div>
     </div>
   </div>
+  <teleport to="body">
+    <CreateMusicListModalBox
+      @close="onCreateMusicListModalBoxClose"
+      v-if="shouldCreateMusicModalBoxOpen"
+    />
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -82,10 +94,13 @@ import MusicListCard from './MusicListCard'
 import {Search} from '@element-plus/icons-vue'
 import {SongCollection} from "@/types/HomePage/HomePageTypes";
 import {router} from "@/router/router";
+import CreateMusicListModalBox from "@/views/HomePage/CreateMusicListModalBox.vue";
 const colorSubstitute=["#E799B0","#576690","#B8A6D9","#BD7D74","#9AC8E2"][Math.floor(5*Math.random())];
 const _debugSongCollection=ref<Array<SongCollection>>(window[Symbol.for('audioListGlobal')].song_collection)
 const searchText=ref('')
 const mySongListNavIndex=ref(0)
+const instance=getCurrentInstance()
+const shouldCreateMusicModalBoxOpen=ref(false)
 function changeMySongListNavIndex(index:number){
   mySongListNavIndex.value=index
 }
@@ -94,6 +109,18 @@ function onMySongListCardClicked(item:SongCollection){
 }
 function onSearchBarClicked(){
   router.push({path:'search'})
+}
+function test(){
+  if(instance){
+    instance.appContext.config.globalProperties.$Toast.show('123')
+
+  }
+}
+function onAddNewButtonClicked(){
+  shouldCreateMusicModalBoxOpen.value=true
+}
+function onCreateMusicListModalBoxClose(){
+  shouldCreateMusicModalBoxOpen.value=false
 }
 </script>
 
@@ -173,6 +200,19 @@ function onSearchBarClicked(){
     }
     .mySongList-list-addNew{
       display: flex;
+      .mySongList-favorite-icon{
+        box-sizing: border-box;
+        border: 2px solid rgb(153,200,226);
+        width: 50px;
+        height: 50px;
+        background-color:rgb(153,200,226);
+        border-radius: 8px;
+        text-align: center;
+        svg{
+          margin-top:7px;
+          color:white;
+        }
+      }
       .mySongList-addNew-icon{
         box-sizing: border-box;
         border: 2px solid rgb(204,204,204);
