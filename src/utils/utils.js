@@ -45,9 +45,9 @@ function readPlaylist() {
     );
   }
   const _currentPlaylist = JSON.parse(localStorage.getItem('current_playlist'));
-  const _songList = _currentPlaylist.song_id_list.map((i) =>
-    window.AudioLists.song_list.find((s) => s.id === i)
-  );
+  const _songList = _currentPlaylist.song_id_list
+    .map((i) => window.AudioLists.song_list.find((s) => s.id === i))
+    .filter((el) => el);
   if (_songList.length === 0) _songList.push(Consts.empty_song);
   return {
     current_song: _currentPlaylist.current_song,
