@@ -9,7 +9,7 @@ export default defineComponent({
     <div class="banner-video">
       <video playsinline="" autoplay="" loop="" muted="">
         <source
-          src="https://asbbs-static-01.kzmidc.workers.dev/?file=/uploads/files/1/banner_1646556711136.mp4"
+          src="https://link.01.asbbs.static.a-soul.fans/uploads/files/1/banner_1646556711136.mp4"
           type="video/mp4"
         />
       </video>
